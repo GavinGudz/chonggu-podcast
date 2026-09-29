@@ -1,12 +1,12 @@
 # 第 2 步：生成成片的音轨和 ffmpeg 滤镜图。
 # 成片顺序：冷开场（正片 0–881 帧）→ 片头（放大到 1080p60）→ 正片其余部分（压缩停顿，每个剪点 6 帧叠化）
 # 叠加 9 张照片卡片，最后 0.8 秒淡出。总帧数应为 19109（318.48 秒）。
-# 音频：吴原同 -2.4 dB 并去齿音；片头音效 +7 dB。
+# 音频：吴原同 -2.4 dB 并去齿音；片头（吴原同口播）-0.9 dB 对齐正片里他的音量，同样去齿音。
 import numpy as np, json, os, subprocess
 import imageio_ffmpeg
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 HERE = os.path.dirname(os.path.abspath(__file__)); W = os.path.join(HERE, 'work')
-SR = 48000; SPF = 800; D = 6; NF = 18816; CO = 881; INTRO = 700
+SR = 48000; SPF = 800; D = 6; NF = 18816; CO = 881; INTRO = 708   # 片头 11.8 秒
 M = 24   # 卡片动画画布的留白，与 animcards.py 一致
 segs = json.load(open(os.path.join(W, 'segs.json')))['segs']
 assert segs[0][0] == 0 and segs[0][1] > CO
@@ -66,7 +66,8 @@ for s, e in main[1:]:
     nx = ep[s * SPF:e * SPF]; m = np.concatenate([m[:-n], m[-n:] * fo + nx[:n] * fi, nx[n:]])
 ia = np.frombuffer(subprocess.run([FF, '-hide_banner', '-loglevel', 'error', '-i', os.path.join(HERE, 'src', 'intro_src.mp4'), '-vn',
                                    '-f', 'f32le', '-ac', '2', '-ar', '48000', '-'], capture_output=True, check=True).stdout, np.float32).reshape(-1, 2)
-ia = np.concatenate([ia[:INTRO * SPF], np.zeros((max(0, INTRO * SPF - len(ia)), 2), np.float32)]) * 10 ** (7 / 20)  # 片头音效 +7 dB
+ia = np.concatenate([ia[:INTRO * SPF], np.zeros((max(0, INTRO * SPF - len(ia)), 2), np.float32)]) * 10 ** (-0.9 / 20)  # 片头 -13.9 LUFS → 与正片吴原同（-14.8）一致
+ia = deess(ia, np.ones(len(ia), np.float32))
 ia[:f10] *= np.linspace(0, 1, f10)[:, None]; tl = int(0.08 * SR); ia[-tl:] *= np.linspace(1, 0, tl)[:, None]
 full = np.concatenate([co, ia, m]).astype(np.float32)
 assert len(full) == TOTAL * SPF, (len(full), TOTAL * SPF)
@@ -77,7 +78,7 @@ full.tofile(os.path.join(W, 'audio.f32'))
 cards = json.load(open(os.path.join(HERE, 'cards.json')))
 G = []
 G.append("[0:v]scale=1920:1080:flags=lanczos:in_color_matrix=bt709:out_color_matrix=bt709:in_range=tv:out_range=tv,unsharp=5:5:0.6:5:5:0,"
-         "fps=60,tpad=stop_mode=clone:stop=10,trim=end_frame=700,setpts=PTS-STARTPTS,setsar=1,format=yuv420p[vi]")
+         f"fps=60,tpad=stop_mode=clone:stop=10,trim=end_frame={INTRO},setpts=PTS-STARTPTS,setsar=1,format=yuv420p[vi]")
 G.append(f"[1:v]setpts=PTS-STARTPTS,fps=60,split={len(main)+1}[sc]" + ''.join(f"[s{i}]" for i in range(len(main))))
 G.append(f"[sc]trim=start_frame=0:end_frame={CO},setpts=PTS-STARTPTS,fps=60,format=yuv420p,setsar=1[vco]")
 for i, (s, e) in enumerate(main):
