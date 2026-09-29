@@ -92,9 +92,12 @@ prev = "c0"; inputs = []
 for j, c in enumerate(cards):
     T0 = out_t(c['t0']); T1 = out_t(c['t1']); dur = T1 - T0
     inputs.append([c['name'], round(dur + 0.05, 3)])
-    c['T0'], c['T1'] = round(T0, 3), round(T1, 3)
+    keys = [[out_t(t), x, y, w] for t, x, y, w in c['keys']]            # 关键帧换算到成片时间
+    X = min(k[1] for k in keys) - M; Y = min(k[2] for k in keys) - M       # 动画画布 = 所有关键帧矩形的外框 + 留白
+    CW = int(max(k[1] + k[3] for k in keys) + M - X); CH = int(max(k[2] + k[3] / c['aspect'] for k in keys) + M - Y) + 1
+    c.update(T0=round(T0, 4), T1=round(T1, 4), keysT=keys, canvas=[X, Y, CW, CH])
     G.append(f"[{3+j}:v]format=rgba,setpts=PTS-STARTPTS+{T0:.4f}/TB[k{j}]")   # 动画与淡入淡出已在 animcards.py 里做好
-    G.append(f"[{prev}][k{j}]overlay=x={c['x']-M}:y={c['y']-M}:eof_action=pass:enable='between(t\\,{T0:.4f}\\,{T1:.4f})'[o{j}]")
+    G.append(f"[{prev}][k{j}]overlay=x={X}:y={Y}:eof_action=pass:enable='between(t\\,{T0:.4f}\\,{T1:.4f})'[o{j}]")
     prev = f"o{j}"
 G.append(f"[{prev}]fade=t=out:st={TOTAL/60-0.8:.4f}:d=0.8,format=yuv420p[v]")
 open(os.path.join(W, 'graph.txt'), 'w').write(';\n'.join(G))
