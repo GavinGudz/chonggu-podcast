@@ -3,3 +3,4 @@
 pipeline/work/
 pipeline/out/
 .DS_Store
+__pycache__/
