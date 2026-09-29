@@ -1,0 +1,5 @@
+# 成片不进仓库（太大），只放素材和脚本
+/重估_第2期_*.mp4
+pipeline/work/
+pipeline/out/
+.DS_Store
