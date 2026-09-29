@@ -4,14 +4,15 @@
 - **停顿：** 压缩 19 处过长停顿，每个剪点 0.1 秒叠化。
 - **音量：** 吴原同 -2.4 dB，与顾东政拉平；片头音效 +7 dB；整体 -14 LUFS。
 - **去齿音：** 只处理吴原同说话的部分（他 4–6 kHz 比顾东政高约 12 dB）。齿音冒头时压 3.5 kHz 以上，最多 8 dB；顾东政的部分逐采样不变。
-- **配图：** 叠加 9 张照片卡片，结尾 0.8 秒淡出。
+- **配图：** 叠加 9 张照片卡片，结尾 0.8 秒淡出。卡片是动画（animcards.py）：跟着原片元素弹出（放大+显现），框内照片缓慢拉远，图注稍后跟进，退场与原片换场同一帧。
 
 ## 运行（Linux / macOS 都可以）
 
 ```bash
-pip install imageio-ffmpeg numpy
+pip install imageio-ffmpeg numpy pillow
 python3 pipeline/prep.py      # 拼回正片、算停顿剪点和说话人分段（约 5–10 分钟）
 python3 pipeline/build.py     # 生成音轨和滤镜图
+python3 pipeline/animcards.py # 渲染照片卡片动画到 work/anim/（约 4 分钟，需要 pillow）
 bash pipeline/render.sh       # 渲染到 pipeline/out/（约 10–20 分钟）
 ```
 

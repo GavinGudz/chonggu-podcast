@@ -7,6 +7,7 @@ import imageio_ffmpeg
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 HERE = os.path.dirname(os.path.abspath(__file__)); W = os.path.join(HERE, 'work')
 SR = 48000; SPF = 800; D = 6; NF = 18816; CO = 881; INTRO = 700
+M = 24   # 卡片动画画布的留白，与 animcards.py 一致
 segs = json.load(open(os.path.join(W, 'segs.json')))['segs']
 assert segs[0][0] == 0 and segs[0][1] > CO
 main = [(CO, segs[0][1])] + [tuple(s) for s in segs[1:]]
@@ -92,9 +93,8 @@ for j, c in enumerate(cards):
     T0 = out_t(c['t0']); T1 = out_t(c['t1']); dur = T1 - T0
     inputs.append([c['name'], round(dur + 0.05, 3)])
     c['T0'], c['T1'] = round(T0, 3), round(T1, 3)
-    G.append(f"[{3+j}:v]format=rgba,fade=t=in:st=0:d=0.4:alpha=1,fade=t=out:st={dur-0.3:.3f}:d=0.3:alpha=1,setpts=PTS-STARTPTS+{T0:.4f}/TB[k{j}]")
-    G.append(f"[{prev}][k{j}]overlay=x={c['x']}:y='{c['y']}+10*max(0\\,1-(t-{T0:.4f})/0.4)':eval=frame:eof_action=pass:"
-             f"enable='between(t\\,{T0:.4f}\\,{T1:.4f})'[o{j}]")
+    G.append(f"[{3+j}:v]format=rgba,setpts=PTS-STARTPTS+{T0:.4f}/TB[k{j}]")   # 动画与淡入淡出已在 animcards.py 里做好
+    G.append(f"[{prev}][k{j}]overlay=x={c['x']-M}:y={c['y']-M}:eof_action=pass:enable='between(t\\,{T0:.4f}\\,{T1:.4f})'[o{j}]")
     prev = f"o{j}"
 G.append(f"[{prev}]fade=t=out:st={TOTAL/60-0.8:.4f}:d=0.8,format=yuv420p[v]")
 open(os.path.join(W, 'graph.txt'), 'w').write(';\n'.join(G))

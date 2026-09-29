@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# 第 3 步：渲染成片 → out/重估_第2期_完整版_紧凑_配图.mp4
+# 第 3 步（先跑 animcards.py）：渲染成片 → out/重估_第2期_完整版_紧凑_配图.mp4
 set -euo pipefail
 cd "$(dirname "$0")"
 FF=$(python3 -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')
 mkdir -p out
 CARD_INPUTS=()
 while read -r name dur; do
-  CARD_INPUTS+=(-loop 1 -framerate 60 -t "$dur" -i "cards/$name.png")
+  CARD_INPUTS+=(-i "work/anim/$name.mov")   # animcards.py 生成
 done < <(python3 -c 'import json; [print(n, d) for n, d in json.load(open("work/meta.json"))["inputs"]]')
 
 "$FF" -hide_banner -y \

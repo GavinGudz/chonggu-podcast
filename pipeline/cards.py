@@ -7,17 +7,15 @@ Image.MAX_IMAGE_PIXELS = None
 HERE = os.path.dirname(os.path.abspath(__file__))
 P = os.path.join(HERE, '..', '照片素材') + '/'
 FONT = '/System/Library/Fonts/Hiragino Sans GB.ttc'
-f_label = ImageFont.truetype(FONT, 26, index=1)   # W6
-f_credit = ImageFont.truetype(FONT, 20, index=0)  # W3
 RED = (179, 40, 47, 255); GRAY = (130, 126, 118, 255); BORDER = (28, 26, 23, 235)
 NARA = '图：白宫摄影处 / 美国国家档案馆'; WH = '图：白宫官方照片'
 # 名称, 文件, 裁切框(None=整张), 照片宽, 高, 图注, 署名, x, y, 正片原始时间 起, 止（秒）
 CARDS = [
     ('A1', '2026-05_北京机场_P20260513DT-0205.jpg', (100, 250, 2200, 1650), 350, 233, '2026.5 · 北京', WH, 1122, 276, 19.5, 26.3),
     ('A2', '2026-09_安德鲁斯基地_P20260923DT-0558.jpg', None, 350, 233, '2026.9 · 华盛顿', WH, 1504, 276, 19.8, 26.3),
-    ('B', '1972_机场握手_NARA66394264.jpg', (0, 150, 3000, 1817), 594, 330, '1972.2.21 · 北京首都机场', NARA, 1228, 450, 65.0, 72.7),
-    ('C', '1972_长城_NARA194420.tif', (0, 300, 3000, 1967), 594, 330, '1972.2.24 · 八达岭长城', NARA, 1228, 450, 72.4, 76.8),
-    ('D', '2026-09_南草坪_P20260924DT-3014.jpg', (300, 100, 3000, 1900), 393, 262, '2026.9 · 白宫南草坪', WH, 1230, 520, 78.0, 93.9),
+    ('B', '1972_机场握手_NARA66394264.jpg', (0, 150, 3000, 1817), 594, 330, '1972.2.21 · 北京首都机场', NARA, 1228, 450, 64.8, 72.77),
+    ('C', '1972_长城_NARA194420.tif', (0, 300, 3000, 1967), 594, 330, '1972.2.24 · 八达岭长城', NARA, 1228, 450, 72.65, 76.77),
+    ('D', '2026-09_南草坪_P20260924DT-3014.jpg', (300, 100, 3000, 1900), 393, 262, '2026.9 · 白宫南草坪', WH, 1230, 520, 77.3, 94.4),
     ('E', 'unsplash_66号公路_ArnaudSteckle.jpg', (0, 250, 3000, 1750), 492, 246, '美国 · 66 号公路', '图：Unsplash / Arnaud Steckle', 1333, 536, 117.5, 125.2),
     ('F', 'unsplash_陆家嘴_FreemanZhou.jpg', None, 638, 366, '上海 · 陆家嘴', '图：Unsplash / Freeman Zhou', 1200, 416, 126.3, 142.2),
     ('G', 'unsplash_UNSW图书馆草坪_DominicKurniawanSuryaputra.jpg', (450, 150, 3000, 1586), 295, 166, '悉尼 · UNSW', '图：Unsplash', 1531, 728, 183.0, 196.2),
@@ -39,6 +37,8 @@ def render(c):
     im = im.resize((w, h), Image.LANCZOS)
     im = ImageEnhance.Color(im).enhance(0.82)
     im = Image.blend(im, Image.new('RGB', im.size, (236, 231, 222)), 0.06)
+    f_label = ImageFont.truetype(FONT, 26, index=1)   # W6
+    f_credit = ImageFont.truetype(FONT, 20, index=0)  # W3
     card = Image.new('RGBA', (w + 2, h + 2 + CAP), (0, 0, 0, 0)); d = ImageDraw.Draw(card)
     d.rectangle([0, 0, w + 1, h + 1], outline=BORDER, width=1); card.paste(im, (1, 1))
     ty = h + 2 + 14
