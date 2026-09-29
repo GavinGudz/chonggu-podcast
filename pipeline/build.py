@@ -1,6 +1,7 @@
 # 第 2 步：生成成片的音轨和 ffmpeg 滤镜图。
 # 成片顺序：冷开场（正片 0–881 帧）→ 片头（放大到 1080p60）→ 正片其余部分（压缩停顿，每个剪点 6 帧叠化）
 # 叠加 9 张照片卡片，最后 0.8 秒淡出。总帧数应为 19109（318.48 秒）。
+# 音频：吴原同 -2.4 dB 并去齿音；片头音效 +7 dB。
 import numpy as np, json, os, subprocess
 import imageio_ffmpeg
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -25,6 +26,27 @@ def out_t(t):  # 正片原始时间 → 成片时间（仅适用于冷开场之�
             return (CO + INTRO + O[i] + (max(f, s) - s)) / 60
 
 
+def deess(x, mask, T=-3.0, R=2.5, MAXR=8.0, N=1024, HOP=256):
+    # 动态去齿音（STFT）：5–10 kHz 与 0.3–4 kHz 能量比超过 T dB 时，按 R:1 压 3.5 kHz 以上，最多 MAXR dB；只作用于 mask 区间
+    w = np.sqrt(np.hanning(N + 1)[:-1]).astype(np.float32)
+    pad = np.pad(x, ((N, N), (0, 0))); nfr = (len(pad) - N) // HOP + 1
+    f = np.fft.rfftfreq(N, 1 / SR); lo = (f >= 300) & (f < 4000); hi = (f >= 5000) & (f < 10000)
+    sh = np.clip((f - 3000) / 1500, 0, 1).astype(np.float32)   # 3–4.5 kHz 渐入
+    idx = (np.arange(nfr) * HOP)[:, None] + np.arange(N)[None, :]
+    X = np.concatenate([np.fft.rfft(pad[idx[s:s + 4096]] * w[None, :, None], axis=1) for s in range(0, nfr, 4096)])
+    P = (np.abs(X) ** 2).mean(2); ph, pl = P[:, hi].sum(1) + 1e-12, P[:, lo].sum(1) + 1e-12
+    gr = np.clip((10 * np.log10(ph / pl) - T) * (1 - 1 / R), 0, MAXR) * (ph > np.median(ph))   # 静音段不动作
+    gr = np.maximum.reduce([gr, np.r_[gr[1:], 0], np.r_[0, gr[:-1]]])   # 起音：提前一帧
+    k = np.exp(-HOP / (0.04 * SR))
+    for i in range(1, len(gr)): gr[i] = max(gr[i], gr[i - 1] * k)       # 释放 40 ms
+    X *= (10 ** (-gr[:, None] * sh[None, :] / 20))[:, :, None]
+    y = np.zeros_like(pad)
+    for s in range(0, nfr, 4096):
+        np.add.at(y, idx[s:s + 4096], np.fft.irfft(X[s:s + 4096], n=N, axis=1) * w[None, :, None])
+    y = y[N:N + len(x)] / (np.sum(w ** 2) / HOP)
+    return (x + mask[:, None] * (y - x)).astype(np.float32)   # mask 外逐采样不变
+
+
 # ---------- 音频 ----------
 ep = np.load(os.path.join(W, 'ep_aligned.npy')).astype(np.float32)
 spk = np.load(os.path.join(W, 'spk.npy')); split = float(np.load(os.path.join(W, 'lab_split.npy'))[0])
@@ -33,6 +55,8 @@ lab[t < split] = 2; lab[(t >= split) & (t < 14.7)] = 1          # 冷开场：�
 g = np.where(lab == 2, 10 ** (-2.4 / 20), 1.0).astype(np.float32)  # 吴原同 -2.4 dB，与顾东政拉平
 k = int(0.05 * SR); g = np.convolve(g, np.ones(k, np.float32) / k, mode='same'); g[:k] = g[k]; g[-k:] = g[-k - 1]
 ep = ep * g[:, None]
+wu = np.convolve((lab == 2).astype(np.float32), np.ones(k, np.float32) / k, mode='same')
+ep = deess(ep, wu)   # 吴原同齿音偏重（4–6 kHz 比顾东政高约 12 dB），只在他说话时去齿音
 f10 = int(0.01 * SR)
 co = ep[:CO * SPF].copy(); co[:f10] *= np.linspace(0, 1, f10)[:, None]; co[-f10:] *= np.linspace(1, 0, f10)[:, None]
 n = D * SPF; tt = np.linspace(0, np.pi / 2, n, endpoint=False)[:, None]; fo, fi = np.cos(tt), np.sin(tt)
