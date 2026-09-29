@@ -1,14 +1,13 @@
-# 《重估》第 2 期 · 配图紧凑版（成片 v4）
+# 《重估》成片
 
-5:19，1920×1080 60fps，-14.1 LUFS，峰值 -1.4 dBFS。
+每期一个文件夹。成片拆成 42 MiB 的分段，进文件夹后用 `cat 文件名.part_* > 文件名.mp4` 拼回。
 
-v4 相对 v3：换上吴原同的新片头（带口播，11.8 秒），口播音量对齐正片。旧版本在本分支历史提交里。
+| 期数 | 最新版本 | 说明 |
+|---|---|---|
+| [第 2 期](第2期/) | v4 | 配图紧凑版，新片头（吴原同口播） |
 
-在 Mac 终端里拼回：
+下载（只取最新版本）：
 
 ```bash
-cd ~/Desktop/重估
-git clone --depth 1 --single-branch --branch output https://github.com/GavinGudz/chonggu-podcast.git 成片v4
-cd 成片v4
-cat 重估_第2期_完整版_紧凑_配图_v4.mp4.part_* > 重估_第2期_完整版_紧凑_配图_v4.mp4
+git clone --depth 1 --single-branch --branch output https://github.com/GavinGudz/chonggu-podcast.git 重估成片
 ```
