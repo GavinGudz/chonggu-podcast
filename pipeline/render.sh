@@ -19,5 +19,5 @@ done < <(python3 -c 'import json; [print(n, d) for n, d in json.load(open("work/
   -c:a aac -b:a 256k -movflags +faststart "out/重估_第2期_完整版_紧凑_配图.mp4"
 
 # 校验：帧数应为 19109，响度约 -14 LUFS，峰值不高于 -1.4 dBFS
-"$FF" -hide_banner -i "out/重估_第2期_完整版_紧凑_配图.mp4" -map 0:v -c copy -f null - 2>&1 | tr '\r' '\n' | grep '^frame=' | tail -1
+echo "frames: $("$FF" -hide_banner -loglevel error -i "out/重估_第2期_完整版_紧凑_配图.mp4" -map 0:v -c copy -f framecrc - | grep -vc '^#')"
 "$FF" -hide_banner -i "out/重估_第2期_完整版_紧凑_配图.mp4" -vn -af ebur128=peak=true -f null - 2>&1 | grep -E '^\s+(I|Peak):'
