@@ -1,0 +1,62 @@
+{
+ "nyu_arch": {
+  "title": "File:Washington Square Arch, New York.jpg",
+  "file": "wikimedia_纽约华盛顿广场拱门_MarcoAlmbauer_CC0.jpg",
+  "bytes": 790744,
+  "license": "CC0",
+  "artist": "Marco Almbauer",
+  "credit": "Own work",
+  "page": "https://commons.wikimedia.org/wiki/File:Washington_Square_Arch,_New_York.jpg",
+  "date": "2017-08"
+ },
+ "nyse": {
+  "title": "File:No Known Restrictions Trading Floor, New York Stock Exchange (Highsmith LOC) (6718386525).jpg",
+  "file": "wikimedia_纽约证券交易所_CarolMHighsmith_公有领域.jpg",
+  "bytes": 633777,
+  "license": "Public domain",
+  "artist": "Carol M. Highsmith",
+  "credit": "This image  is available from the United States Library of Congress's Prints and Photographs division under the digital ",
+  "page": "https://commons.wikimedia.org/wiki/File:No_Known_Restrictions_Trading_Floor,_New_York_Stock_Exchange_(Highsmith_LOC)_(6718386525).jpg",
+  "date": "2011-07-10 20:03"
+ },
+ "simon": {
+  "title": "File:Herbert Simon close-up (cropped).jpg",
+  "file": "wikimedia_HerbertSimon_1981_RIT_公有领域.jpg",
+  "bytes": 303041,
+  "license": "Public domain",
+  "artist": "Rochester Institute of Technology",
+  "credit": "News &amp; Events 1981 at the RIT Digital Archive",
+  "page": "https://commons.wikimedia.org/wiki/File:Herbert_Simon_close-up_(cropped).jpg",
+  "date": "1981-03-19"
+ },
+ "kahneman": {
+  "title": "File:Daniel Kahneman (3283955327) (cropped).jpg",
+  "file": "wikimedia_DanielKahneman_nrkbeta_CCBYSA2.jpg",
+  "bytes": 395009,
+  "license": "CC BY-SA 2.0",
+  "artist": "nrkbeta",
+  "credit": "IMG_4330",
+  "page": "https://commons.wikimedia.org/wiki/File:Daniel_Kahneman_(3283955327)_(cropped).jpg",
+  "date": "2009-01-27 13:00"
+ },
+ "doctor": {
+  "title": "File:Female doctor listens to the patient using a stethoscope closeup.jpg",
+  "file": "wikimedia_医生听诊_Shixart1985_CCBY2.jpg",
+  "bytes": 260122,
+  "license": "CC BY 2.0",
+  "artist": "Shixart1985",
+  "credit": "Own work",
+  "page": "https://commons.wikimedia.org/wiki/File:Female_doctor_listens_to_the_patient_using_a_stethoscope_closeup.jpg",
+  "date": "2023-11-26 11:39:44"
+ },
+ "kabosu": {
+  "title": "File:Kabosu the Doge Monument.jpg",
+  "file": "wikimedia_柴犬Kabosu纪念像_FredCherrygarden_CCBYSA4.jpg",
+  "bytes": 1010364,
+  "license": "CC BY-SA 4.0",
+  "artist": "Fred Cherrygarden",
+  "credit": "Own work",
+  "page": "https://commons.wikimedia.org/wiki/File:Kabosu_the_Doge_Monument.jpg",
+  "date": "2024-06-04 13:46:21"
+ }
+}
