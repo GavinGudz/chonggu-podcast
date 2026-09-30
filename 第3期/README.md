@@ -11,9 +11,23 @@
 | 3.1 · 注意力价值 | 顾东政 | 3:28 | 该向谁看齐 / 拯救自己 / 一道面试题 / 另一种自由 | `剪辑/plan_A.json`，`剪辑/storyboard34_A.json` |
 | 3.2 · 方向性直觉 | 吴原同 | 3:44 | 方向性直觉 / 浸泡出来的直觉 / AI 的边界 / 比你想象的值钱 | `剪辑/plan_B.json`，`剪辑/storyboard34_B.json` |
 
-拆分时去掉的：纽约大学拱门和纽约证券交易所照片、狗狗币/柴犬资料卡、医生段落和照片、「下注」「变现」「财富自由」的红色强调，章节名「另一种财富自由」改为「另一种自由」，画面标题「往一个方向下注」改为「往一个方向投入」。台词本身不改字，字幕与原声一致。
+拆分时去掉的：纽约大学拱门和纽约证券交易所照片、狗狗币/柴犬资料卡、医生照片和那段较长的医生例子（3.2 只留一句简短的例子：一个医生看了几千个病人之后，也许会形成某种临床直觉，配听诊器图标和文字卡）、「下注」「变现」「财富自由」的红色强调，章节名「另一种财富自由」改为「另一种自由」，画面标题「往一个方向下注」改为「往一个方向投入」。台词本身不改字，字幕与原声一致。
 
 每集各有冷开场（三句金句）→ 片头（竖版重排，节拍 `剪辑/片头节拍_3.1.json`、`剪辑/片头节拍_3.2.json`）→ 正片 4 章 → 谢谢收听（结尾互相指向上集 / 下集）。顶栏、结尾和封面写 3.1 / 3.2（分镜里的 `label`），不写第 3 / 第 4 期。
+
+## 重现
+
+在本地工程的 `work/` 目录运行（脚本即本仓库 `scripts/`，剪辑表与分镜即 `剪辑/`；另需原始录屏转出的 `src48.wav` 和 `outputs/` 里的片头文件，都不在仓库里）：
+
+```bash
+EP_VARIANT=A python3 storyboard34.py && EP_VARIANT=B python3 storyboard34.py
+python3 plan_to_edl.py plan_A.json edl_A.json && python3 assemble.py edl_A.json edit_A
+EDIT_DIR=edit_A INTRO_BASE=重估_片头_3.1_注意力价值 EP_JS=ep_A.js python3 build_ep.py storyboard34_A.json
+EDIT_DIR=edit_A INTRO_BASE=重估_片头_3.1_注意力价值 python3 mix.py edit_A/final_mix.wav
+# 3.2：把 A 换成 B，INTRO_BASE=重估_片头_3.2_方向性直觉
+```
+
+`INTRO_BASE` 是片头生成器（`make_intro.py`，不在本仓库）的输出名，用 `--episode 3 --label 3.1` / `--label 3.2` 生成；节拍与参数见 `剪辑/片头节拍_3.1.json`、`剪辑/片头节拍_3.2.json`。画面用 `render/render.mjs` 渲染（`EPJS=ep_A.js node render.mjs --from 0 --to <片尾秒数> --out video_A.mp4`），再和 `final_mix.wav` 合成。
 
 ## 剪辑
 

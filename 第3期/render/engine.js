@@ -636,7 +636,8 @@
     const C = EP.chapters[ci]
     const key = C.no + C.name
     if (chapEl.dataset.k !== key) { chapEl.dataset.k = key; chapEl.innerHTML = `<b>${C.no}</b>${C.name}` }
-    chapEl.style.opacity = 0.35 + 0.65 * prog(t, C.t0 - 0.2, 0.5)
+    // chapter 01 is already on screen at full strength when the intro hands over: no second fade-in (it blinked)
+    chapEl.style.opacity = IN && ci === 0 ? 1 : 0.35 + 0.65 * prog(t, C.t0 - 0.2, 0.5)
     // speaker chips
     const spk = t < B0 && IN ? window.__introSpeaker(t) : speakerAt(t)
     for (const k of ['gu', 'wu']) {
