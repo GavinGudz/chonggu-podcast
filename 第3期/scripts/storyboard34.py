@@ -256,7 +256,7 @@ for sc in S:
         sc['lead'] = -0.9   # hold the reference card a beat longer
 
 import os
-VARIANT = os.environ.get('EP_VARIANT', '')           # 'A' = 第 3 期 顾东政, 'B' = 第 4 期 吴原同, '' = the joint cut
+VARIANT = os.environ.get('EP_VARIANT', '')           # 'A' = 3.1 顾东政, 'B' = 3.2 吴原同, '' = the joint cut (第 3 期)
 if VARIANT:
     S = [sc for sc in S if sc['t0'] != '观众朋友们你们之前']          # the intro right before already names the topic
     for sc in S:
@@ -264,11 +264,12 @@ if VARIANT:
             sc['t0'] = '观众朋友们'
         if sc['t0'] == '你们有想过自己的优势':
             sc['t0'] = '听众朋友们'
-FOOT = {'A': '重估 · 第 3 期　　下一期：吴原同谈方向性直觉', 'B': '重估 · 第 4 期　　上一期：顾东政谈注意力价值'}.get(VARIANT, '重估 · 第 3 期')
+LABEL = {'A': '3.1', 'B': '3.2'}.get(VARIANT)      # the two halves of 第 3 期 are labelled 3.1 / 3.2, never 第 3 / 第 4 期
+FOOT = {'A': '重估 · 3.1　　下集 3.2：吴原同谈方向性直觉', 'B': '重估 · 3.2　　上集 3.1：顾东政谈注意力价值'}.get(VARIANT, '重估 · 第 3 期')
 
 sb = {
-    'episode': {'A': 3, 'B': 4}.get(VARIANT, 3), 'handoff': 'intro',
-    'title': {'kicker': '重估 · 第 3 期', 'head': '注意力放在哪里，\n直觉就长在哪里', 'sub': '', 'ruleW': 480},
+    'episode': 3, 'label': LABEL, 'handoff': 'intro',
+    'title': {'kicker': f'重估 · {LABEL}' if LABEL else '重估 · 第 3 期', 'head': '注意力放在哪里，\n直觉就长在哪里', 'sub': '', 'ruleW': 480},
     'end': {'kicker': '', 'head': '谢谢收听', 'foot': FOOT, 'ruleW': 364, 'y0': 520},
     'chapters': [], 'scenes': S,
 }

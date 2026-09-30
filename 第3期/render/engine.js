@@ -59,7 +59,7 @@
   const topbar = $('div', 'layer', chrome); topbar.id = 'topbar'
   $('div', 'show', topbar).textContent = EP.show.name
   $('div', 'dot', topbar)
-  $('div', 'ep', topbar).textContent = `第 ${EP.show.ep} 期`
+  $('div', 'ep', topbar).textContent = EP.show.label || `第 ${EP.show.ep} 期`
   const chapEl = $('div', 'chap', topbar)
   $('div', null, topbar).id = 'tl-base'
   const tlProg = $('div', null, topbar); tlProg.id = 'tl-prog'
@@ -439,7 +439,7 @@
     const tbTick = $('div', 'bar', L_), tbHalo = $('div', 'disc', L_), tbDot = $('div', 'disc', L_), tbRip = $('div', 'disc', L_)
     const brand = $('div', null, L_, { position: 'absolute', left: '60px', top: '46px', font: '900 31px/1 var(--serif)', letterSpacing: '1px' }); brand.textContent = '重估'
     const bdot = $('div', null, L_, { position: 'absolute', left: '141px', top: '64px', width: '6px', height: '6px', borderRadius: '3px', background: 'var(--gray)' })
-    const issue = $('div', null, L_, { position: 'absolute', left: '174px', top: '56px', font: '400 22px/1 var(--sans)', color: 'var(--ink2)', letterSpacing: '2px' }); issue.textContent = `第 ${EP.show.ep} 期`
+    const issue = $('div', null, L_, { position: 'absolute', left: '174px', top: '56px', font: '400 22px/1 var(--sans)', color: 'var(--ink2)', letterSpacing: '2px' }); issue.textContent = EP.show.label || `第 ${EP.show.ep} 期`
     const chapI = $('div', null, L_, { position: 'absolute', right: '60px', top: '53px', font: '400 22px/1 var(--sans)', color: 'var(--ink2)', whiteSpace: 'nowrap', letterSpacing: '1px' })
     chapI.innerHTML = `<b style="font-weight:600;color:var(--red);margin-right:14px">${EP.chapters[0].no}</b>${EP.chapters[0].name}`
     const chTicksI = EP.chapters.slice(1).map((c) => $('div', 'bar', L_))

@@ -307,7 +307,7 @@ env = np.clip((db + 42) / 42, 0, 1) ** 1.3
 env = (env * 255).round().astype(int).tolist()
 
 EP = {
-    'show': {'name': '重估', 'ep': SB['episode']},
+    'show': {'name': '重估', 'ep': SB['episode'], 'label': SB.get('label')},
     'env': env, 'chars': [{k: c[k] for k in ('c', 't0', 't1', 'spk')} for c in chars], 'subs': subs,
     'coldopen': {'t0': 0.0, 't1': Tco, 'quotes': quotes, 'handoff': SB.get('handoff', 'intro')},
     'title': {**SB['title'], 't0': Tco + 0.15, 't1': Tb + 0.1},
