@@ -8,8 +8,8 @@ import json, sys
 plan = json.load(open(sys.argv[1]))
 SPK = {'顾东政': 'gu', '吴原同': 'wu'}
 # key terms shown in red in the subtitles (first occurrence per piece only, so the red stays rare)
-HL = ['注意力价值', '方向性直觉', '注意力', '拯救自己', '学习的意义', '分享出去', '财富自由', '留在自己身上', '提供方向',
-      '网感', '下注', '临床直觉', '留下东西', '非常宝贵', '非常非常差', '直觉判断', '怎么去变现', '不构成投资建议', '更加值钱']
+HL = ['注意力价值', '方向性直觉', '注意力', '拯救自己', '学习的意义', '分享出去', '留在自己身上', '提供方向',
+      '网感', '临床直觉', '留下东西', '非常宝贵', '非常非常差', '更加值钱']   # no red on 下注 / 变现 / 财富自由 (Douyin keyword review)
 BREAK_AFTER = set('的了是就在和把说我你他们也都还而但所以因为如果')
 
 
@@ -65,7 +65,7 @@ for q in plan['cold_open']:
 for c in plan['chapters']:
     edl['chapters'].append({'no': c['no'], 'name': c['name'], 'pieces': [
         {'spk': SPK[p['speaker']], 'src': [p['src_start'], p['src_end']], 'text': p['text'], 'hl': hl_for(p['text']),
-         'exact': not p.get('snap', False), **({'gap': p['gap']} if 'gap' in p else {}), **({'parts': p['parts']} if 'parts' in p else {})}
+         'exact': not p.get('snap', False), **({'gap': p['gap']} if 'gap' in p else {}), **({'parts': p['parts']} if 'parts' in p else {}), **({'inner_gap': p['inner_gap']} if 'inner_gap' in p else {})}
         for p in c['pieces']]})
 json.dump(edl, open(sys.argv[2], 'w'), ensure_ascii=False, indent=1)
 for q in edl['cold_open']:

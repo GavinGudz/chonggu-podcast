@@ -10,7 +10,7 @@ const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/cs
 const args = Object.fromEntries(process.argv.slice(2).reduce((a, v, i, arr) => (v.startsWith('--') ? [...a, [v.slice(2), arr[i + 1]]] : a), []))
 const server = http.createServer((req, res) => {
   const p = decodeURIComponent(new URL(req.url, 'http://x').pathname)
-  const f = join(ROOT, p === '/' ? 'index.html' : p)
+  const f = p === '/ep.js' && process.env.EPJS ? join(ROOT, process.env.EPJS) : join(ROOT, p === '/' ? 'index.html' : p)
   if (!existsSync(f)) { res.writeHead(404); return res.end() }
   res.writeHead(200, { 'Content-Type': TYPES[extname(f)] || 'application/octet-stream', 'Cache-Control': 'no-store' })
   res.end(readFileSync(f))

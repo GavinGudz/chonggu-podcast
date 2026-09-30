@@ -235,9 +235,10 @@ def body_gap(prev, p, a):
         return 0.9
     if prev['spk'] != p['spk']:
         return 0.55
+    mid = prev['text'].rstrip()[-1:] not in '。？！，、；：,.?!;:'   # the previous piece stops mid-sentence
     if 0 <= src_gap < 0.9:  # contiguous in the recording: keep the breath, capped
-        return max(0.12, min(src_gap - 0.12, 0.42))
-    return 0.36
+        return max(0.12, min(src_gap - 0.12, 0.18 if mid else 0.42))
+    return 0.16 if mid else 0.36
 
 
 pieces = []

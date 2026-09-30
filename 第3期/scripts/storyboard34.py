@@ -33,7 +33,7 @@ scene('你从小时候',
       Node(118, NY[0], at='就是你从小时候'), Lab('小时候', 170, NY[0] - 62, at='就是你从小时候', css={'color': 'var(--gray2)', 'fontSize': '24px'}),
       Box('向成绩最好的学生学习', 170, NY[0] - 26, 850, 110, at='成绩最好的学生', tsize=44),
       Node(118, NY[1], at='到了大学'), Lab('大学', 170, NY[1] - 62, at='到了大学', css={'color': 'var(--gray2)', 'fontSize': '24px'}),
-      Box('入党 · 国企 · 央企', 170, NY[1] - 26, 850, 110, at='谁入了党', tsize=44),
+      Box('稳定的好单位', 170, NY[1] - 26, 850, 110, at='谁入了国企', tsize=44),
       Node(118, NY[2], at='成家之后'), Lab('毕业 · 成家', 170, NY[2] - 62, at='成家之后', css={'color': 'var(--gray2)', 'fontSize': '24px'}),
       Box('优秀的伴侣 · 良好的成长环境', 170, NY[2] - 26, 850, 110, at='优秀的伴侣', tsize=44),
       Node(118, NY[3], at='每到一个阶段', red=True), Lab('每 一 个 阶 段', 170, NY[3] - 62, at='每到一个阶段', css={'color': 'var(--red)', 'fontSize': '24px'}),
@@ -55,7 +55,6 @@ scene('那为什么我们不在最开始',
 scene('我之前是一个',
       K('就 拿 我 自 己 而 言', y=200),
       Box('学习很差的学生', X, 270, 500, 150, at='学习很差', style='dark', tsize=60),
-      Tag('半 年 职 高', X, 460, at='职高'),
       Hd('我为什么\n要学习？', y=580, at='我为什么要学习', size=140, cps=16))
 
 scene('后来我发现',
@@ -70,16 +69,14 @@ scene('后来我发现',
 scene('高中念完了以后',
       K('高 中 念 完 以 后', y=190),
       Hd('纽约大学\n的通知书', y=250, at='纽约大学', size=110, cps=16),
-      Tag('W A I T L I S T', X, 530, at='waitlist'),
-      Photo('nyu', X, 610, CW, 460, pos='50% 70%', at='纽约大学', cap='纽约 · 华盛顿广场拱门（纽约大学就在广场周围）', cred='图：Wikimedia Commons / Marco Almbauer（CC0）', delay=0.5))
+      Tag('W A I T L I S T', X, 530, at='waitlist'))
 
 scene('最后一轮',
-      K('最 后 一 轮 · Z O O M 面 试', y=180),
+      K('最 后 一 轮 · 线 上 面 试', y=180),
       {'kind': 'avatar', 'x': X, 'y': 250, 'size': 300, 'text': '面试官', 'at': '三名面试官'},
       {'kind': 'avatar', 'x': X + 330, 'y': 250, 'size': 300, 'text': '面试官', 'at': '三名面试官', 'delay': 0.15},
       {'kind': 'avatar', 'x': X + 660, 'y': 250, 'size': 300, 'text': '面试官', 'at': '三名面试官', 'delay': 0.3},
       Bub('当你有了足够的时间和金钱，\n你会拿它们做些什么？', X, 600, at='足够的时间', size=46, tail='up'),
-      P('他们为什么要问我这个问题？', X, 840, at='他们为什么', size=38, css={'color': 'var(--gray2)'}),
       Tag('我 很 久 之 前 就 有 答 案 了', X, 930, at='很久之前'))
 
 scene('我想把自己的想法',
@@ -92,13 +89,13 @@ scene('如果这些分享',
       K('对 我 而 言', y=200),
       Box('让更多人\n踏上改变自己的道路', X, 270, CW, 250, at='改变自己的道路', style='pink', tsize=62),
       Big('＞', 540, 530, at='比我个人拥有', size=150),
-      Box('我个人\n拥有巨量财富', X, 720, CW, 210, at='巨量财富', tsize=52),
+      Box('个人的\n巨量财富', X, 720, CW, 210, at='巨量财富', tsize=52),
       Hd('更有意义，更有价值', y=990, at='更有意义', size=84, cps=16))
 
-scene('国庆将至',
-      K('国 庆 将 至', y=200),
+scene('现在我与我的伙伴',
+      K('此 刻', y=200),
       Hd('坐在这里，\n其实我觉得很幸福', y=260, at='坐在这里', size=100, cps=16),
-      Photo('two', X, 620, CW, 249, at='一起录制这档节目', cap='2026.09.29 · 录制现场', cred='图：腾讯会议录屏（左：吴原同　右：顾东政）', zoom=0.03))
+      Photo('two', X, 620, CW, 249, at='一起录制这档节目', cap='2026.09.29 · 录制现场', cred='图：录制现场截图（左：吴原同　右：顾东政）', zoom=0.03))
 
 scene('为什么呢',
       K('为 什 么 ？', y=190),
@@ -126,9 +123,9 @@ scene('在这个人人抢夺',
 
 scene('不会被世俗',
       K('不 被 包 裹 住', y=220),
-      Box('世俗', X, 300, 290, 150, at='世俗', tsize=64, center=True),
-      Box('家人', X + 335, 300, 290, 150, at='家人', tsize=64, center=True),
-      Box('规则', X + 670, 300, 290, 150, at='规则', tsize=64, center=True),
+      Box('世俗眼光', X, 300, 290, 150, at='世俗', tsize=54, center=True),
+      Box('家人期待', X + 335, 300, 290, 150, at='家人', tsize=54, center=True),
+      Box('条条框框', X + 670, 300, 290, 150, at='规则', tsize=54, center=True),
       Hd('未来想拥有的人生，\n是自己争取的', y=560, at='未来想拥有的人生', size=96, cps=16),
       P('也许今天开始，会离你想要的人生更近一步', X, 850, at='也许今天开始', size=36, hl=['更近一步']))
 
@@ -158,7 +155,7 @@ scene('网感',
 
 scene('下个定义',
       K('定 义', y=230),
-      Hd('信息还不完全，\n未来还不确定，\n你已经愿意\n往一个方向下注', y=300, at='当信息还不完全', size=104, cps=16),
+      Hd('信息还不完全，\n未来还不确定，\n你已经愿意\n往一个方向投入', y=300, at='当信息还不完全', size=104, cps=16),
       Rule(y=840, w=520, at='$往一个方向下注'))
 
 scene('注意，我不是说',
@@ -171,12 +168,9 @@ scene('再说回我刚说的第一句话',
       Hd('在方向性直觉上，\n你真正的优势\n在哪里？', y=440, at='再说回', size=104, cps=16))
 
 scene('就连网感这种东西',
-      K('网 感 也 能 变 现', y=190),
-      Hd('就连网感，\n都能赚钱', y=250, at='就连网感这种东西', size=120, cps=16),
-      Photo('kabosu', X, 590, 560, 360, at='变现的工具', cap='狗狗币 logo 上那只柴犬：Kabosu', cred='纪念像 · 日本千叶县佐仓市（2023 年落成）\n图：Fred Cherrygarden（CC BY-SA 4.0）', delay=0.2),
-      K('资 料', x=660, y=600, at='变现的工具', delay=0.8),
-      P('狗狗币（Dogecoin）\n2013 年作为一个\n玩笑诞生', 660, 650, at='变现的工具', size=34, delay=1.0, css={'color': 'var(--ink)'}),
-      Src('一个梗，\n后来成了一种加密货币', 660, 830, at='变现的工具', delay=1.6))
+      K('网 感 也 有 价 值', y=300),
+      Hd('就连网感，\n都能变成价值', y=360, at='就连网感这种东西', size=130, cps=12),
+      Rule(y=740, w=480, at='$变现的工具'))
 
 scene('一个医生可能',
       K('长 期 浸 泡 在 一 个 职 业 里', y=190),
@@ -192,8 +186,7 @@ scene('大家都是长期浸泡',
       K('资 料', x=400, y=590, delay=0.4),
       P('直觉什么时候靠得住？', 400, 640, size=40, delay=0.6, css={'color': 'var(--ink)', 'fontWeight': '600'}),
       P('① 环境足够有规律、可预测\n② 有机会长期练习，学到规律', 400, 720, size=30, delay=0.9),
-      Src('Kahneman & Klein, 2009\nAmerican Psychologist', 400, 850, delay=1.3),
-      Src('他们也指出：预测个股涨跌这类\n规律极弱的环境，经验很难\n练出可靠的直觉。', 400, 935, delay=1.9, css={'fontSize': '24px', 'color': 'var(--red)'}))
+      Src('Kahneman & Klein, 2009\nAmerican Psychologist', 400, 850, delay=1.3))
 
 scene('当然AI当然可以',
       K('AI 也 有 某 种 直 觉 ， 但 …', y=180),
@@ -214,14 +207,13 @@ scene('至少在AI拥有真正完整的世界经验之前',
       Hd('人类的直觉，\n非常宝贵', y=440, at='我们人类的这种直觉', size=130, cps=16),
       Rule(y=780, w=520, at='$非常宝贵'))
 
-scene('再说个例子',
+scene('我前段时间',
       K('我 自 己 的 例 子', y=180),
-      Tag('前 段 时 间 · CODEX 刚 出 来 两 个 月', X, 240, at='Codex'),
+      Tag('前 段 时 间', X, 240, at='Codex'),
       Lab('有边界', X, 340, at='有限边界', css={'fontSize': '40px'}),
       Chk('做一个软件、一个小功能', X, 400, at='做一个软件', size=56),
       Lab('无边界', X, 520, at='不确定且无边界', css={'fontSize': '40px'}),
-      Chk('股市', X, 580, at='股市', mark='x', size=56),
-      Photo('nyse', X, 690, CW, 300, at='股市', cap='纽约证券交易所', cred='图：Carol M. Highsmith / 美国国会图书馆（公有领域）', delay=0.4))
+      Chk('股市这类没有边界的事', X, 580, at='股市', mark='x', size=56))
 
 scene('我们人就可以把AI',
       K('用 AI 最 好 的 方 式', y=230),
@@ -233,7 +225,7 @@ scene('你可以去想',
       K('你 可 以 去 想', y=200),
       Chk('别人要想很久，\n我第一时间就有感觉？', X, 290, at='别人需要想很久', size=58),
       Chk('我待得足够久，\n判断开始变成本能？', X, 500, at='待了足够久', size=58),
-      Hd('怎么去变现', y=760, at='怎么去变现', size=130, color='red'))
+      Hd('怎么把它\n变成价值', y=760, at='怎么去变现', size=120))
 
 scene('比如说一个医生',
       K('举 个 例 子', y=180),
@@ -248,7 +240,7 @@ scene('比如说一个医生',
       Tag('只 是 举 例 · 不 构 成 投 资 建 议', X, 1110, at='不构成投资建议'))
 
 scene('毕竟如果一个人',
-      P('连一个梗会不会火，\n都可以变成流量、变成钱、变成生意', X, 200, at='毕竟如果一个人', size=38, hl=['变成钱']),
+      P('连一个梗会不会火，\n都可以变成流量、变成钱、变成生意', X, 200, at='毕竟如果一个人', size=38),
       Big('5 · 10 · 20', 540, 380, at='五年', size=170),
       Lab('年', 540, 580, at='五年', align='center', css={'fontSize': '44px'}),
       Hd('形成的专业直觉，\n可能比你想象的\n更值钱', y=700, at='那你花了', size=100, cps=16))
@@ -263,11 +255,22 @@ for sc in S:
     if sc['t0'] == '当然AI当然可以':
         sc['lead'] = -0.9   # hold the reference card a beat longer
 
+import os
+VARIANT = os.environ.get('EP_VARIANT', '')           # 'A' = 第 3 期 顾东政, 'B' = 第 4 期 吴原同, '' = the joint cut
+if VARIANT:
+    S = [sc for sc in S if sc['t0'] != '观众朋友们你们之前']          # the intro right before already names the topic
+    for sc in S:
+        if sc['t0'] == '你从小时候':
+            sc['t0'] = '观众朋友们'
+        if sc['t0'] == '你们有想过自己的优势':
+            sc['t0'] = '听众朋友们'
+FOOT = {'A': '重估 · 第 3 期　　下一期：吴原同谈方向性直觉', 'B': '重估 · 第 4 期　　上一期：顾东政谈注意力价值'}.get(VARIANT, '重估 · 第 3 期')
+
 sb = {
-    'episode': 3, 'handoff': 'intro',
+    'episode': {'A': 3, 'B': 4}.get(VARIANT, 3), 'handoff': 'intro',
     'title': {'kicker': '重估 · 第 3 期', 'head': '注意力放在哪里，\n直觉就长在哪里', 'sub': '', 'ruleW': 480},
-    'end': {'kicker': '', 'head': '谢谢收听', 'foot': '重估 · 第 3 期', 'ruleW': 364, 'y0': 520},
+    'end': {'kicker': '', 'head': '谢谢收听', 'foot': FOOT, 'ruleW': 364, 'y0': 520},
     'chapters': [], 'scenes': S,
 }
-json.dump(sb, open(HERE / 'storyboard34.json', 'w'), ensure_ascii=False, indent=1)
+json.dump(sb, open(HERE / f"storyboard34{('_' + VARIANT) if VARIANT else ''}.json", 'w'), ensure_ascii=False, indent=1)
 print(len(S), 'scenes')

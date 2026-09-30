@@ -13,12 +13,13 @@ sys.path.insert(0, str(Path.home() / 'Documents/Codex/2026-09-28/wu-du/chonggu_i
 import music as mu  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
-ED = HERE / 'edit'
+import os
+ED = HERE / os.environ.get('EDIT_DIR', 'edit')
 SR = 48000
 out = Path(sys.argv[1])
 T = json.load(open(ED / 'ep_times.json'))
 voice = wavfile.read(ED / 'ep_voice.wav')[1].astype(np.float64)
-INTRO = HERE.parent / 'outputs' / '重估_片头_第3期_注意力与直觉.mp4'
+INTRO = HERE.parent / 'outputs' / (os.environ.get('INTRO_BASE', '重估_片头_第3期_注意力与直觉') + '.mp4')
 
 
 def db(x):

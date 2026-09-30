@@ -9,13 +9,14 @@ import numpy as np
 from scipy.io import wavfile
 
 HERE = Path(__file__).resolve().parent
-ED = HERE / 'edit'
+import os
+ED = HERE / os.environ.get('EDIT_DIR', 'edit')
 R = HERE.parent / 'render'
 SR = 48000
 TL = json.load(open(ED / 'timeline.json'))
 SB = json.load(open(sys.argv[1] if len(sys.argv) > 1 else HERE / 'storyboard.json'))
 PUNCT = set('，。？！、；：,.?!;:“”"（）()…')
-INTRO = json.load(open(HERE.parent / 'outputs' / '重估_片头_第3期_注意力与直觉.json'))
+INTRO = json.load(open(HERE.parent / 'outputs' / (os.environ.get('INTRO_BASE', '重估_片头_第3期_注意力与直觉') + '.json')))
 TITLE_SLOT = round(INTRO['derived']['END'] + 0.5, 3)   # intro: until the finished frame has held 0.5 s
 END_CARD = SB.get('end_card', 5.0)
 
@@ -23,7 +24,7 @@ cold = wavfile.read(ED / 'cold.wav')[1] if (ED / 'cold.wav').exists() else np.ze
 body = wavfile.read(ED / 'body.wav')[1]
 Tco = round(len(cold) / SR + 1.0, 3)           # the last quote's attribution holds for a beat
 Tb = round(Tco + TITLE_SLOT, 3)
-Tbe = round(Tb + len(body) / SR + 0.4, 3)
+Tbe = round(Tb + len(body) / SR + 1.4, 3)       # let the last line land before the end card
 Tend = round(Tbe + END_CARD, 3)
 
 # ---------------------------------------------------------------- chars
@@ -46,7 +47,8 @@ import jieba
 jieba.setLogLevel(60)
 for w in ['很久', '反推', '更多人', '这么一层', '方向性直觉', '注意力', '临床直觉', '不确定性', '变现', '网感', '世界经验']:
     jieba.add_word(w, freq=200000)
-BAD_END_WORDS = {'也许', '如果', '因为', '所以', '但是', '而且', '比如说', '就是', '可能', '甚至'}
+BAD_END_WORDS = {'也许', '如果', '因为', '所以', '但是', '而且', '比如说', '就是', '可能', '甚至', '或者'}
+BAD_END_PAIRS = {'在我', '给我', '对我', '让我', '向我'}
 BAD_END = set('把在向被从对和与连的了是就也都还而但给让这那个些将于')     # a line should not end on these one-char words
 BAD_START = set('的了着过吧呢吗啊得地')                               # nor start with these
 SENT_END = '。？！'
@@ -82,7 +84,7 @@ def split_clause(v):
             if p_ <= start + 3 or p_ >= len(v) - 2 or p_ - start > MAXL:
                 continue
             nxt = bounds[q + 1][1] if q + 1 < len(bounds) else ''
-            cost = abs(p_ - target) + (6 if (len(w) == 1 and w in BAD_END) else 0) + (6 if nxt[:1] in BAD_START and len(nxt) == 1 else 0) + (5 if w in BAD_END_WORDS else 0)
+            cost = abs(p_ - target) + (6 if (len(w) == 1 and w in BAD_END) else 0) + (6 if nxt[:1] in BAD_START and len(nxt) == 1 else 0) + (5 if w in BAD_END_WORDS else 0) + (6 if text[max(0, p_ - 2):p_] in BAD_END_PAIRS else 0)
             if cost < bestcost:
                 best, bestcost = p_, cost
         if best is None:
@@ -95,9 +97,10 @@ def split_clause(v):
 def split_group(g):
     idx = [i for i, c in enumerate(chars) if c['row'] in g]
     clauses, cur = [], []
-    for i in idx:
+    for k, i in enumerate(idx):
         cur.append(i)
-        if chars[i]['c'] in '，。？！；：、,.?!;:':
+        row_end = k + 1 < len(idx) and chars[idx[k + 1]]['row'] != chars[i]['row']   # a cut join is a natural break
+        if chars[i]['c'] in '，。？！；：、,.?!;:' or row_end:
             clauses.append(cur); cur = []
     if cur:
         clauses.append(cur)
@@ -291,7 +294,7 @@ mix[:len(cold)] += cold
 mix[int(Tb * SR):int(Tb * SR) + len(body)] += body
 import subprocess
 ia = ED / 'intro_audio.wav'
-subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(HERE.parent / 'outputs' / '重估_片头_第3期_注意力与直觉.mp4'), '-vn', '-ac', '1', '-ar', str(SR), '-c:a', 'pcm_f32le', str(ia)], check=True)
+subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(HERE.parent / 'outputs' / (os.environ.get('INTRO_BASE', '重估_片头_第3期_注意力与直觉') + '.mp4')), '-vn', '-ac', '1', '-ar', str(SR), '-c:a', 'pcm_f32le', str(ia)], check=True)
 intro_a = wavfile.read(ia)[1].astype(np.float32)
 env_mix = mix.copy()
 k0 = int(Tco * SR); env_mix[k0:k0 + len(intro_a)] += intro_a[:max(0, len(env_mix) - k0)] * 0.5
@@ -315,10 +318,10 @@ EP = {
 A = dict(INTRO['anchors']); A.update(INTRO['derived'])
 (P1s, P1e), (P2s, P2e), (P3s, P3e), (P4s, P4e) = INTRO['phrases']
 A.update({'P1s': P1s, 'P2s': P2s, 'P3s': P3s, 'P3e': P3e, 'P4s': P4s, 't3': INTRO['t3'], 't4t': round(P4s + (A['t4w'] - P4s) / 2, 3)})
-TSIZE = 140
+TSIZE = min(168, 840 // len(INTRO['topic']))   # topic fits between the old mark and the right margin
 EP['intro'] = {'t0': Tco, 'a': A, 'topic': INTRO['topic'], 'tsize': TSIZE, 'topic_w': TSIZE * len(INTRO['topic']),
                'date': '2026.09.29'}
-(R / 'ep.js').write_text('window.EP=' + json.dumps(EP, ensure_ascii=False))
+(R / os.environ.get('EP_JS', 'ep.js')).write_text('window.EP=' + json.dumps(EP, ensure_ascii=False))
 json.dump({'Tco': Tco, 'Tb': Tb, 'Tbe': Tbe, 'Tend': Tend, 'n_subs': len(subs), 'n_scenes': len(scenes),
            'chapters': chapters}, open(ED / 'ep_times.json', 'w'), ensure_ascii=False, indent=1)
 print(json.dumps({'Tco': Tco, 'Tb': Tb, 'Tbe': Tbe, 'Tend': Tend, 'subs': len(subs), 'scenes': len(scenes)}))
