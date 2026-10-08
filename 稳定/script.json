@@ -17,7 +17,8 @@
    "text": "即使两个人已经结婚了，我们能确认这段关系会持续发展下去吗？",
    "gap": 0.9,
    "mood": "question",
-   "speed": 0.8
+   "speed": 0.8,
+   "silence_start": 0.46
   },
   {
    "id": "s1",

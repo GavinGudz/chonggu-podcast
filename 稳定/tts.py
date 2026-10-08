@@ -193,6 +193,13 @@ def main():
         d = duration(wav)
         said = ln.get("tts", ln["text"])
         ct = char_times(ln["text"], said, cache[ln["id"]], d)
+        ss = ln.get("silence_start", 0.0)   # a stray filler at the start was silenced in the wav: speech starts later
+        if ss:
+            x, srr = sf.read(str(wav))
+            k = int(ss * srr)
+            if np.abs(x[:k]).max() > 1e-4:
+                x[:k] = 0; f = int(0.015 * srr); x[k:k + f] *= np.linspace(0, 1, f); sf.write(str(wav), x, srr)
+            ct = [ss + c * (d - ss) / d for c in ct]
         lines.append({"id": ln["id"], "scene": ln["scene"], "text": ln["text"], "i": i, "file": wav.name,
                       "t0": round(t, 3), "t1": round(t + d, 3), "chars": [round(t + x, 3) for x in ct],
                       "cer": cache[ln["id"]]["cer"]})
