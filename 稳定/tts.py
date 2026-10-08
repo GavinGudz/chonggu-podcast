@@ -23,10 +23,12 @@ import numpy as np
 import soundfile as sf
 
 ROOT = Path(__file__).parent
-LEAD_IN = 4.2      # title card before the first line
+LEAD_IN = 6.2      # wordless opening: coins, lightning, the title
 TAIL = 7.5         # the roots grow after the last line
-MAX_CER = 0.08     # regenerate above this
-TRIES = 4
+MAX_RATE = 5.0     # characters per second; he talks at about 4.3
+TARGET_RATE = 4.4
+MAX_CER = 0.0      # every syllable of the script must be heard; otherwise regenerate
+TRIES = 3
 
 PUNCT = re.compile(r"[\s，。、？！：；——…“”‘’（）,.?!:;()\-]")
 
@@ -51,7 +53,7 @@ def cer(ref: str, hyp: str) -> float:
     a, b = lazy_pinyin(norm(ref)), lazy_pinyin(norm(hyp))
     sm = difflib.SequenceMatcher(None, a, b, autojunk=False)
     same = sum(m.size for m in sm.get_matching_blocks())
-    return 1 - same / max(1, len(a))
+    return ((len(a) - same) + (len(b) - same)) / max(1, len(a))   # missing and extra syllables both count
 
 
 def trim(src: Path, dst: Path):
@@ -137,11 +139,13 @@ def main():
     cache_p = ddir / "asr.json"
     cache = json.loads(cache_p.read_text()) if cache_p.exists() and not force else {}
     ref, ref_text = str(ROOT / spec["ref"]), spec["ref_text"]
+    REFS = json.loads((ROOT / spec["refs"]).read_text()) if spec.get("refs") else {}
     speed = spec.get("speed", 1.0)
     tts = None
     for i, ln in enumerate(spec["lines"]):
         said = ln.get("tts", ln["text"])
-        key = json.dumps([said, spec["ref"], ln.get("speed", speed), ln.get("seed", 0)], ensure_ascii=False)
+        ref_f, ref_t = (str(ROOT / REFS[ln["mood"]]["file"]), REFS[ln["mood"]]["text"]) if ln.get("mood") else (ref, ref_text)
+        key = json.dumps([said, ref_f, ref_t, ln.get("speed", speed), ln.get("seed", 0)], ensure_ascii=False)
         wav = adir / f"line_{i:02d}.wav"
         if cache.get(ln["id"], {}).get("key") == key and wav.exists():
             continue
@@ -151,7 +155,7 @@ def main():
         best = None
         for k in range(TRIES):
             seed = ln.get("seed", 0) * 100 + 11 + k * 7
-            y, sr, _ = tts.infer(ref, ref_text, said, seed=seed, speed=ln.get("speed", speed), nfe_step=32,
+            y, sr, _ = tts.infer(ref_f, ref_t, said, seed=seed, speed=ln.get("speed", speed), nfe_step=32,
                                  show_info=lambda *a: None)
             raw = adir / f"_raw_{i:02d}_{k}.wav"
             sf.write(raw, y, sr)
@@ -166,8 +170,18 @@ def main():
             if e <= MAX_CER:
                 break
         e, out, a, seed = best
+        rate = len(norm(said)) / duration(out)
+        if rate > MAX_RATE:   # rushed: one more go, slowed to his natural pace
+            sp2 = ln.get("speed", speed) * TARGET_RATE / rate   # F5: lower speed = slower
+            y, sr, _ = tts.infer(ref_f, ref_t, said, seed=seed, speed=sp2, nfe_step=32, show_info=lambda *a: None)
+            raw = adir / f"_raw_{i:02d}_slow.wav"; sf.write(raw, y, sr)
+            out2 = adir / f"_try_{i:02d}_slow.wav"; trim(raw, out2); raw.unlink()
+            a2 = asr(out2); e2 = cer(said, a2["text"])
+            print(f"{i:02d} slowed {rate:.1f} c/s -> speed {sp2:.2f}: {len(norm(said)) / duration(out2):.1f} c/s cer {e2:.2f}  {a2['text']}", flush=True)
+            if e2 <= e + 0.04 and len(norm(said)) / duration(out2) < rate:
+                e, out, a = e2, out2, a2
         out.replace(wav)
-        for f in adir.glob(f"_try_{i:02d}_*.wav"):
+        for f in list(adir.glob(f"_try_{i:02d}_*.wav")):
             f.unlink()
         cache[ln["id"]] = {"key": key, "cer": round(e, 3), "seed": seed, "heard": a["text"], "words": a["words"]}
         cache_p.write_text(json.dumps(cache, ensure_ascii=False, indent=1))

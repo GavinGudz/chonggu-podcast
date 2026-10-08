@@ -1,0 +1,30 @@
+{
+ "calm": {
+  "file": "voice/ref_b.wav",
+  "text": "那么学历给我带来的是机会，大学给我带来的是朋友，那么从此之后，学习给我带来的是行动，还有选择。"
+ },
+ "question": {
+  "file": "voice/ref_question.wav",
+  "text": "碰到不会的东西，你愿不愿意搞明白呢？明白自己缺少什么，你愿不愿意补上呢？"
+ },
+ "passion": {
+  "file": "voice/ref_passion.wav",
+  "text": "我觉得最重要的事情是什么呢？就是保持饥饿，保持求知欲，拥有一颗不断愿意学习的心。"
+ },
+ "warm": {
+  "file": "voice/ref_warm.wav",
+  "text": "那么如果不是大学，我和吴老师说不定，还在哪一个平行宇宙才会相遇呢，对吧。"
+ },
+ "doubt": {
+  "file": "voice/ref_doubt.wav",
+  "text": "但是获得这个机会，我还要具体拿出一些成绩的时候，我就开始怀疑，这个学历到底对我有没有用。"
+ },
+ "firm": {
+  "file": "voice/ref_firm.wav",
+  "text": "那么答案是什么呢？错。人家要的是你有能力。那么你想要的是，人家能看到我的学历。"
+ },
+ "resolve": {
+  "file": "voice/ref_resolve.wav",
+  "text": "在这个不确定性的船上，我们可以牢牢地抓紧船帆，让自己不掉下去。"
+ }
+}
