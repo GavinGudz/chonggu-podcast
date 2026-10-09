@@ -26,7 +26,7 @@ async function openPage() {
   await p.setViewport({ width: VW, height: VH, deviceScaleFactor: 1 })
   p.on('console', (m) => console.log('[page]', m.text()))
   p.on('pageerror', (e) => console.log('[pageerror]', e.message))
-  await p.goto(`http://localhost:${port}/page/index.html?w=${VW}&h=${VH}`, { waitUntil: 'load' })
+  await p.goto(`http://localhost:${port}/page/${args.page || 'index.html'}?w=${VW}&h=${VH}`, { waitUntil: 'load' })
   await p.waitForFunction(() => window.ready === true, { timeout: 60000 })
   const cdp = await p.createCDPSession()
   return { p, cdp }
