@@ -1,0 +1,18 @@
+# 第 8 期 · Anthropic 招股书
+
+**最新版本 v18（2026-11-04）**：1920×1080 横版 16:9，16:20，吴原同单人口播（本人真声）。
+
+**下载（一整个文件，1.13 GB，不用拼）**：[chonggu_ep8_anthropic_s1_v18_1080p.mp4](https://github.com/GavinGudz/chonggu-podcast/releases/download/ep8-v18/chonggu_ep8_anthropic_s1_v18_1080p.mp4)
+（也可以在 [Releases](https://github.com/GavinGudz/chonggu-podcast/releases/tag/ep8-v18) 页面下载。成片超过 git 单个文件 100 MB 的上限，所以放在 Release 里，不再拆成分段。）
+
+## 章节
+开头 → 钱：多能赚 → 钱：越火越亏 → 钱：几千亿合同 → 方向盘 → 越界·开场 → 越界·上 → 越界·下 → 下一代
+
+## v18 改了什么
+- 拼接处带进来的前后句半个字（比如「开了家新公司，司」）全部去掉，共 72 处；念了半句又重念的地方只留完整的那一遍（越界·上 oa18、越界·下 ob03 等）。
+- 被切掉的字补回（「认输」「停用 Anthropic 了」「留给你吧」等）。
+- 字幕按录音的说法改了 18 句。
+- 开场「这里是重估，我是原同」那段的配乐换掉（原来那段太欢快）。
+
+## 发布时
+- 上传平台时勾选「内容由 AI 生成」。
