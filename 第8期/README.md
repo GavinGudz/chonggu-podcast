@@ -1,8 +1,10 @@
 # 第 8 期 · Anthropic 招股书
 
-**最新版本 v18（2026-11-04）**：1920×1080 横版 16:9，16:15，吴原同单人口播（本人真声）。
+**最新版本 v18（2026-11-04）**：横版 16:9，2K 和 1080p 两个文件，16:15，吴原同单人口播（本人真声）。
 
 **下载（一整个文件，1.13 GB，不用拼）**：[chonggu_ep8_anthropic_s1_v18_1080p.mp4](https://github.com/GavinGudz/chonggu-podcast/releases/download/ep8-v18/chonggu_ep8_anthropic_s1_v18_1080p.mp4)
+
+**2K 版（2560×1440，1.75 GB，内容和上面一样，画面更清楚，传 B 站用这个）**：[chonggu_ep8_anthropic_s1_v18_2k.mp4](https://github.com/GavinGudz/chonggu-podcast/releases/download/ep8-v18/chonggu_ep8_anthropic_s1_v18_2k.mp4)
 （也可以在 [Releases](https://github.com/GavinGudz/chonggu-podcast/releases/tag/ep8-v18) 页面下载。成片超过 git 单个文件 100 MB 的上限，所以放在 Release 里，不再拆成分段。）
 
 封面：横版 `重估_第8期_封面_16比9.png`，竖版 `重估_第8期_封面_3比4.png`。标题、简介、章节时间戳、标签：`发布简介_第8期.md`。
