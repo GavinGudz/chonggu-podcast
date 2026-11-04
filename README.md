@@ -4,7 +4,7 @@
 
 | 期数 | 最新版本 | 说明 |
 |---|---|---|
-| [第 8 期](第8期/) | v18：横版 16:9，16:15；2K（[下载](https://github.com/GavinGudz/chonggu-podcast/releases/download/ep8-v18/chonggu_ep8_anthropic_s1_v18_2k.mp4)）和 1080p（[下载](https://github.com/GavinGudz/chonggu-podcast/releases/download/ep8-v18/chonggu_ep8_anthropic_s1_v18_1080p.mp4)）两个文件，都放在 Release，不拆分段；封面：横版 `重估_第8期_封面_16比9.png`、竖版 `重估_第8期_封面_3比4.png` | 11.04 制作，Anthropic 招股书：吴原同单人口播（本人真声），9 章；见该文件夹 README |
+| [第 8 期](第8期/) | v18：横版 16:9，16:15；2K（[下载](https://github.com/GavinGudz/chonggu-podcast/releases/download/ep8-v18/chonggu_ep8_anthropic_s1_v18_2k.mp4)）和 1080p（[下载](https://github.com/GavinGudz/chonggu-podcast/releases/download/ep8-v18/chonggu_ep8_anthropic_s1_v18_1080p.mp4)）两个文件，都放在 Release，不拆分段；封面：横版 `重估_第8期_封面_16比9.png`、竖版 `重估_第8期_封面_3比4.png`；抖音 3:4 分段 6 集见 [第8期/抖音3比4](第8期/抖音3比4/) | 11.04 制作，Anthropic 招股书：吴原同单人口播（本人真声），9 章；见该文件夹 README |
 | [稳定](稳定/) | v4：1080×1920 竖版 9:16，3:59；封面：`封面_9比16.png`、`封面_3比4.png` | 10.08 制作，10.09 重做画面。顾东政独白《重估：“稳定”》，口播与原稿一字不差，字幕加英文；配音由 AI 根据顾东政本人声音合成（按情绪克隆）；全片一个镜头到底 + 实时读数 + 合成配乐。v1–v3 在提交历史里 |
 | [第 4 期](第4期/) | 1080×1440 竖版 3:4，20:21；封面：竖版 3:4 `重估_第4期_封面_竖版.png` | 10.04 录制，学历：顾东政 7 章 + 吴原同 7 章合成一条；片头为顾东政口播；去掉抖音易误伤的几句，见该文件夹 README |
 | [3.1 / 3.2](第3期/) | 1080×1440 竖版 3:4；3.1 注意力价值（顾东政）3:28，3.2 方向性直觉（吴原同）3:44；封面：竖版 3:4 `重估_3.1_封面_竖版.png`、`重估_3.2_封面_竖版.png` | 9.29 录制按说话人拆成上下两集，去掉抖音易误伤内容；每集冷开场 + 片头 + 4 章，配图署名见该文件夹 README。原 7:12 合并版在提交历史里 |
