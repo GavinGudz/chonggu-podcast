@@ -7,7 +7,9 @@
 **2K 版（2560×1440，1.75 GB，内容和上面一样，画面更清楚，传 B 站用这个）**：[chonggu_ep8_anthropic_s1_v18_2k.mp4](https://github.com/GavinGudz/chonggu-podcast/releases/download/ep8-v18/chonggu_ep8_anthropic_s1_v18_2k.mp4)
 （也可以在 [Releases](https://github.com/GavinGudz/chonggu-podcast/releases/tag/ep8-v18) 页面下载。成片超过 git 单个文件 100 MB 的上限，所以放在 Release 里，不再拆成分段。）
 
-封面：横版 `重估_第8期_封面_16比9.png`，竖版 `重估_第8期_封面_3比4.png`。标题、简介、章节时间戳、标签：`发布简介_第8期.md`。
+封面：横版 `重估_第8期_封面_16比9.png`，竖版 `重估_第8期_封面_3比4.png`，4:3 横封面 `重估_第8期_封面_4比3.png`（抖音横版视频的横封面）。标题、简介、章节时间戳、标签：`发布简介_第8期.md`。
+
+**抖音 3:4 分段版（6 集，每集 2.5～3 分钟，竖屏大字幕，每集一张新封面）**：见 [抖音3比4/](抖音3比4/)。
 
 ## 章节
 开头 → 钱：多能赚 → 钱：越火越亏 → 钱：几千亿合同 → 方向盘 → 越界·开场 → 越界·上 → 越界·下 → 下一代
