@@ -1,0 +1,10 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><title>{{TITLE}}</title><link rel="icon" href="data:,"><link rel="stylesheet" href="film.css"></head>
+<body><main id="stage"></main>
+<!-- 这个文件由 python -m chonggu stills / render 按 episode.yaml 生成到 <这一期>/out/stage/index.html，不要手改。
+     网址依次在 <这一期>/out/stage、<这一期>、工具包 stage/ 里找：这一期可以放同名文件盖过工具包的（比如自己的 lib/kit8.js）。 -->
+<script>window.EP = {{EP}};</script>
+<script src="lib/stage25d.js"></script><script src="lib/film_base.js"></script><script src="lib/moves.js"></script><script src="lib/lin16.js"></script><script src="lib/kit8.js"></script>
+<script src="tree9.js"></script><script src="space9.js"></script><script src="treeskin.js"></script>
+{{PROPS}}<script>window.CH=[];</script>
+<script src="calm.js"></script>
+{{CHAPTERS}}<script src="film.js"></script></body></html>

@@ -1,0 +1,9 @@
+# 两边通用的 Python 包（Python 3.11 / 3.12；降噪要 3.12，见 requirements-denoise.txt）
+# Mac（Apple 芯片）装 requirements-mac.txt，Windows / Linux 装 requirements-win.txt，它们都会先装这里的。
+numpy>=1.26
+scipy>=1.11
+soundfile>=0.12.1
+PyYAML>=6.0
+pypinyin>=0.50
+Pillow>=10.0
+audiotsm>=0.1.2          # 变速不变调的兜底（没有 rubberband 时用；纯 Python）

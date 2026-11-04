@@ -1,0 +1,10 @@
+{
+ "_说明": "情绪编排（格式见 chonggu/mix/plan.py 开头）。sections：一段一首，from / to 是锚点（句id、句id.cut、句id.end、句id:字、END，可跟 +秒 / -秒），under 说话时比人声低几 dB（-20 到 -12），breath 气口里比人声低几 dB（不高于 -4）；drops：这一段撤掉音乐；hits：爆点音效。file 写 assets/manifest.json 里的 name（python -m chonggu fetch-assets 下载），或者这一期 assets/ 里自己的文件。",
+ "sections": [
+  {"file": "cand/light_quirkydoc.mp3", "from": "x1-0.3", "to": "END", "under": -18, "breath": -6, "fin": 0.3, "fout": 1.5}
+ ],
+ "drops": [],
+ "hits": [],
+ "sfx_keep": ["page", "riser", "swish"],
+ "sfx_db": -5
+}

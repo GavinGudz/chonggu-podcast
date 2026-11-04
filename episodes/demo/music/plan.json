@@ -1,0 +1,10 @@
+{
+ "_说明": "示例期的配乐编排（格式见 chonggu/mix/plan.py 开头）：一首 CC0 钢琴循环从片名卡垫到片尾；章节卡那口气里音乐顶上来。",
+ "sections": [
+  {"file": "cc0/calming_piano_loop.mp3", "from": "ly1-1.6", "to": "END", "under": -18, "breath": -6, "fin": 0.4, "fout": 1.2}
+ ],
+ "drops": [],
+ "hits": [],
+ "sfx_keep": ["pop", "swish"],
+ "sfx_db": -5
+}

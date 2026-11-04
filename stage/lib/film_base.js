@@ -1,0 +1,87 @@
+// film_base.js —— 每条片都一样的底座（不是镜头）：读时间线、按字取时刻、实拍取帧、镜头登记、按时刻找镜头、字幕、预加载。
+// 载入顺序见 index.template.html：lib/stage25d.js → lib/film_base.js → lib/moves.js → lib/lin16.js → lib/kit8.js → tree9/space9/treeskin/calm → ch/*.js → film.js。
+// 画面一律在各期自己的 ch/*.js 里现写；stage/film.js 调这里的 FB.init / F.go。
+// 用法（film.js）：
+//   window.ready=(async()=>{
+//     const F=await FB.init({counts:['assets/clips/counts.json'],cuts:['jensen'],preload:['stage_navy.jpg'],fonts:['60px Num','700 60px "Noto Sans SC"']});
+//     const {cue,B,fr,clipSrc,shot}=F;
+//     shot(0,B('b02'),t=>`...这一镜的画面...`);
+//     ...
+//     return F.go({frame:h=>`<div style="position:absolute;inset:0">${h}</div>`});   // frame 可选：给整帧统一包一层（调色、颗粒）
+//   })();
+// 时刻一律写成 cue(句id,'词')，不写死秒数；同一个 t 永远画出同一帧。
+(()=>{
+const C=x=>Math.max(0,Math.min(1,x));
+const lat=s=>s.replace(/([A-Za-z0-9][A-Za-z0-9 .,$%-]*[A-Za-z0-9]|[A-Za-z0-9])/g,'<span class="lat">$1</span>');
+
+async function init(o={}){
+ const A=o.assets??'assets/';
+ const T=await fetch(o.timeline??'timeline.json').then(r=>r.json());
+ const stage=document.querySelector(o.stage??'#stage');
+ const fit=()=>stage.style.transform=`scale(${Math.min(innerWidth/1920,innerHeight/1080)})`;addEventListener('resize',fit);fit();
+
+ // 时间线：B(句) 开口、BE(句) 说完、cue(句,'词') 那个字的时刻；INS 原声插段
+ const BT=Object.fromEntries(T.beats.map(b=>[b.id,b]));
+ const need=id=>{if(!BT[id])throw Error(`timeline.json 里没有句子 ${id}`);return BT[id];};
+ const B=id=>need(id).start,BE=id=>need(id).end;
+ const cue=(id,s)=>{const b=need(id),i=b.text.indexOf(s);if(i<0)throw Error(`${id} 里找不到「${s}」`);return b.chars[i][1];};
+ const INS=Object.fromEntries((T.inserts||[]).map(i=>[i.id,i]));
+
+ // 实拍帧序列（footage.py extract 写的 counts.json）；没登记的片段直接报错，不出黑屏
+ const CL={};
+ for(const p of o.counts??[])Object.assign(CL,await fetch(p).then(r=>{if(!r.ok)throw Error('读不到 '+p);return r.json();}));
+ const fr=(n,f)=>{if(!CL[n])throw Error(`实拍 ${n} 没有登记帧数（counts.json）`);return `${A}clips/${n}/${String(Math.max(1,Math.min(CL[n],Math.round(f)))).padStart(4,'0')}.jpg`;};
+ const clipSrc=(n,t,t0,rate=1)=>fr(n,Math.floor(Math.max(0,t-t0)*30*rate)+1);
+
+ // 抠像（matte.py + matte_clean.py 写的 box.json），之后用 S25.cutP
+ if(o.cuts?.length)await S25.loadCuts(o.cuts,A+'cut/');
+ await Promise.all((o.preload??[]).map(n=>new Promise(r=>{const im=new Image();im.onload=im.onerror=r;im.src=A+n;})));
+ await Promise.all((o.fonts??[]).map(f=>document.fonts.load(f)));
+
+ // 字幕：一句超过 maxLen 个字就按逗号拆成短语，卡着字的时刻替换；原声插段用它自己的中文字幕
+ const maxLen=o.subMax??20;
+ const SUBS=T.beats.map(b=>({start:b.vstart??b.start,end:b.end+.15,text:b.text,id:b.id}));   // vstart：呼吸点前镜头先切，人声后到
+ for(const i of T.inserts||[])for(const p of i.parts)SUBS.push({start:p.start,end:p.end,text:p.sub,id:null});
+ SUBS.sort((a,b)=>a.start-b.start);for(let i=0;i<SUBS.length-1;i++)SUBS[i].end=Math.min(SUBS[i].end,SUBS[i+1].start);
+ function subText(s,t){
+  if(s.text.length<=maxLen||!s.id)return s.text.replace(/[。]$/,'');
+  const parts=s.text.split(/(?<=[，？：])/).filter(Boolean),chunks=[];let cur='';
+  for(const p of parts){if((cur+p).length>maxLen&&cur){chunks.push(cur);cur=p}else cur+=p}if(cur)chunks.push(cur);
+  const bb=BT[s.id];let idx=0,acc=0;for(let i=0;i<chunks.length;i++){if(t>=bb.chars[acc][1]-.05)idx=i;acc+=chunks[i].length}
+  return chunks[idx].replace(/[，。：]$/,'');}
+ const subAt=t=>{const s=SUBS.find(x=>t>=x.start&&t<x.end);return s?{text:s.text,html:`<div class="sub">${lat(subText(s,t))}</div>`}:null;};
+
+ // 镜头登记：shot(起, 止, t=>这一帧的 HTML)
+ const shots=[];const shot=(t0,t1,f)=>{shots.push({t0,t1,f});return f;};
+
+ function go(g={}){
+  // 镜头之间不能有空档或重叠（空档那一段会落到最后一镜上，画面跳）
+  const ss=[...shots].sort((a,b)=>a.t0-b.t0),eps=1e-3;
+  if(!ss.length)console.error('film.js 一个镜头都没有登记');
+  else{if(ss[0].t0>eps)console.error(`0–${ss[0].t0.toFixed(2)} 秒没有镜头`);
+   for(let i=0;i<ss.length-1;i++){const a=ss[i],b=ss[i+1];
+    if(b.t0>a.t1+eps)console.error(`镜头之间有空档：${a.t1.toFixed(2)}–${b.t0.toFixed(2)}`);
+    if(b.t0<a.t1-eps)console.error(`镜头重叠：${b.t0.toFixed(2)} 开始的镜头和上一镜（到 ${a.t1.toFixed(2)}）叠在一起`);}
+   if(ss.at(-1).t1<T.duration-eps)console.error(`最后一镜在 ${ss.at(-1).t1.toFixed(2)} 结束，片长 ${T.duration}`);}
+  const frame=g.frame??(h=>h),defs=g.defs??S25.DEFS;
+  window.timeline=T;window.duration=T.duration;
+  // dry=true：只算一遍这一帧（render.mjs --moves 用），不写进页面、不等图片
+  window.seek=async(t,dry=false)=>{
+   t=Math.max(0,Math.min(T.duration-1/300,t));
+   const i=shots.findIndex(x=>t>=x.t0&&t<x.t1),k=i<0?shots.length-1:i,s=shots[k];
+   FB.cur={shot:k,t};
+   let h=s.f(t);const sub=subAt(t);if(sub)h+=sub.html;
+   if(dry)return {time:t,shot:k};
+   stage.innerHTML=defs+frame(h);
+   await Promise.race([Promise.all([...document.images].map(im=>im.decode().catch(()=>{}))),new Promise(r=>setTimeout(r,4000))]);await document.fonts.ready;   // 解码最多等 4 秒（第 7 期有一段卡死过）
+   return {time:t,shot:k,sub:sub?.text??''};
+  };
+  return window.seek(0);
+ }
+
+ const F={T,A,stage,C,B,BE,cue,INS,CL,fr,clipSrc,shot,shots,go,subAt};
+ Object.assign(FB,{T,A,fr,clipSrc,CL,shots});
+ return F;
+}
+window.FB={init,cur:{shot:0,t:0}};
+})();

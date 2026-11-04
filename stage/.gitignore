@@ -1,0 +1,7 @@
+node_modules/
+# 字体和贴图都是下载 / 生成的（fonts/FONTS.json、chonggu/render/skin.py），不进仓库
+fonts/*.ttf
+fonts/*.otf
+fonts/OFL_*.txt
+skin/*.png
+skin/.version

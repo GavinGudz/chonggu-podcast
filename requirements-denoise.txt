@@ -1,0 +1,4 @@
+# 降噪：ClearVoice（MossFormer2_SE_48K）。会装 torch（1–3 GB），并把 numpy 降到 2.0 以下，所以要 Python 3.12（3.13 装不上）。
+# 装不上也能做片子：口播流水线加 --no-denoise，或 episode.yaml 写 voice: {denoise: false}。
+# Windows 有 NVIDIA 显卡的，先装 CUDA 版 torch 再装这个（python -m chonggu doctor --install 会自动做）。
+clearvoice>=0.1.2

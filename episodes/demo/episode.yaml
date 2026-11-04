@@ -1,0 +1,63 @@
+# 示例期：试工具包、跑 CI 用的最小一期（约 35 秒，两章，六句）。每个字段的说明见 episodes/_template/episode.yaml。
+# 素材全部可以公开分发，都登记在 assets/manifest.json（地址、作者、授权、sha256），python -m chonggu fetch-assets demo 下载到缓存：
+#   口播：Wikimedia Commons 上一段普通话的有声条目（CC0），念的是中文维基百科「无盐村」条目（文字 CC BY-SA 3.0，见 CREDITS_第99期.md）
+#   配乐：Freesound 的 CC0 钢琴循环；音效：Freesound 的 CC0（pop、whoosh）
+#   画面：只用舞台自带的零件（片名卡、章节卡、玻璃卡、大字、树），没有照片、截图、实拍
+# 从头到尾：python -m chonggu fetch-assets demo，再 python -m chonggu build demo（out/ 里出成片、手机版、编辑包、检查报告）
+
+number: 99                    # 示例期：不和真的期数撞
+slug: demo
+title: 示例
+version: v1
+host: 示例
+
+script: script.md
+
+voice:
+  recording: speech/zh_wuyancun.ogg   # 清单里的 name：这一期文件夹里没有，就用 fetch-assets 下到缓存里的那份
+  denoise: false              # 录音本身很干净；降噪要另装 clearvoice（几个 GB），示例期不用
+
+# 片名卡在第一句开口前（这口气 1.6 秒），章节卡在「无盐村」开口前（2 秒）
+breath:
+  ly1: 1.6
+  wy1: 2.0
+
+chapters:
+  - {pre: ly, name: 这段录音, file: ch/ly.js}
+  - {pre: wy, name: 无盐村, file: ch/wy.js, branch: place}
+
+branches:
+  place: {label: 地方, pal: wheel}
+
+title_card: {text: 示例期, sub: CHONGGU-KIT · DEMO}
+
+music:
+  plan: music/plan.json
+
+render:
+  fps: 30
+  res: [1080]
+  workers: 2                  # CI 的机器只有 3–4 个核
+
+pack:
+  phone_parts:
+    - {name: 全片, chapters: [ly, wy]}
+  edit_pack: true
+
+cover:
+  headline: 一段公有领域的录音
+  tag: 工具包示例期
+  big: CC0
+  loop: false
+  sub: [从录音到成片, 一条命令跑完]
+  note: 口播：Wikimedia Commons（CC0）· 文字：维基百科（CC BY-SA 3.0）· 配乐：Freesound
+  credit: false
+
+intro:
+  titles: [示例期：一段公有领域的录音做成一期《重估》, 从录音到成片，一条命令跑完, 工具包示例期]
+  short: [这是《重估》出片工具包的示例期。, 口播是 Wikimedia Commons 上一段 CC0 的普通话录音。, 配乐、音效都是 CC0，画面只用舞台自带的零件。]
+  source: 口播来自 Wikimedia Commons「File:无盐村.ogg」（CC0），文字来自中文维基百科「无盐村」条目（CC BY-SA 3.0）。
+  tags: [示例]
+
+qa:
+  allow: []

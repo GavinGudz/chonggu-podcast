@@ -1,0 +1,109 @@
+# 《重估》一期的配置。章节、原声句、渲染、配乐、打包、发布的参数都从这里来，所有输出文件的名字也由这里生成。
+# 新的一期：python -m chonggu new <短名> --number 期数 --title 标题（会复制这个模板、填好下面头几行）
+# 改完跑：python -m chonggu script-check <这一期>（先查这个文件写得对不对，再查稿子）
+# 路径都相对这一期的文件夹。值空着（什么都不写）= 用默认值。
+
+number: 1                     # 期数
+slug: 示例                    # 这一期的短名：文件夹名，也用在文件名里（字母、数字、汉字、- _ .，不能有空格）
+title: 示例                   # 成片文件名里的标题：重估_第1期_<title>_v1_1080p.mp4（不写同 slug）
+version: v1                   # 版本：每次重出成片加一（v1、v2 …；同一版修小问题可写 v2b）
+host: 主讲人                  # 主讲（片尾、封面署名、简介里用）
+date:                         # 发布日期，如 2026-11-04（不写就用发布那天）
+
+script: script.md             # 稿子（格式见 script.md 开头）
+
+# 估算时间线：还没录音时按稿子估每个字的时刻，先拿它做画面（script-check 生成 timeline.json）
+estimate:
+  rate: 6.1                   # 每秒几个字
+  quote_dur: 3.0              # 原声没写时长时，先按几秒排
+
+# 口播：主讲的录音 → 降噪 → 每句挑最后完整的一遍 → 拼接 → 人声链 → 收停顿、提速 → 整条口播。全部选项见 chonggu/voice/common.py 开头
+voice:
+  recording: assets/rec.m4a   # 原始录音（一整期一次录完；念错了就停一下重念那句，取最后完整的一遍）
+                              # 放在别处的写完整路径：Windows 用正斜杠 C:/Users/…/rec.m4a，或者单引号 'C:\Users\…\rec.m4a'（双引号里的 \ 是转义，会报错）
+  denoise: true               # 降噪（ClearVoice）；没装或不要就写 false，或命令行 --no-denoise
+  pause_cap: 0.3              # 句子里超过这么长的停顿收到这么长（秒）
+  max_tempo: 1.22             # 提速上限（变速不变调）
+
+# 原声句：当事人原话的录音，字幕是稿子里那句的中文译文，主讲不念。这里是唯一的登记处，id 和稿子里一样（一般以 q 结尾）。
+#   file：这一期 assets/ 里的音频（新闻、采访片段只放在本机，不进 git）；dur：原声长几秒；speaker：谁说的；src：画面左下角的出处
+quotes:
+  x3q: {file: assets/quotes/x3q.wav, dur: 3.0, speaker: 某人, src: 某台 · 2026.1}
+
+# 呼吸点：这句开口前多空几秒（新镜头在空档里先进来，配乐在气口里顶上来）。也可以写一个 json 文件：breath: voice/breath.json
+breath:
+  x4: 1.2
+
+# 新闻插段：大转折处主讲不说话，只放新闻和采访的原声。按章的前缀写，放在这一章第一句开口前的长气口里（那句的 breath 要 15 秒左右）。
+# 版式 wall / feed / cinema 和每个字段的意思见 stage/calm.js 开头；素材放这一期的 assets/（不进 git）。
+interludes: {}
+#  wh:
+#    style: wall
+#    title: 方向盘
+#    en: WHO STEERS
+#    segs:
+#      - {clip: cm_xxx, c0: 0.3, aud: w1, d: 3.4, sub: 中文字幕, src: 某台 · 2026.2}
+
+# 章节：前缀、章名、顺序要和稿子里的「## 章名 | 前缀」一样（不写这一段就按稿子来）。
+#   file：画面代码（不写就是 ch/<前缀>.js）；branch：属于树上哪一根枝（左上角的小标签；开头那一章不写）
+chapters:
+  - {pre: x, name: 开头, file: ch/x.js}
+
+# 树枝：键是画面代码里用的名字；label 是小标签上的字，pal 是配色（stage/lib/kit8.js 的 K.PAL 里的名字）
+branches: {}
+#  money: {label: 钱, pal: money}
+
+# 片名卡（「这里是《重估》，我是……」那一下）；字段的意思见 stage/ 里片名卡的代码
+title_card: {}
+
+# 舞台的其他设置（文件截图框、树、台标、实拍登记表……），见 stage/*.js 和 chonggu/render/run.py 的 stage_config
+stage: {}
+
+# 配乐编排和响度
+music:
+  plan: music/plan.json       # 情绪编排：一段一首、撤音乐、爆点音效（格式见 chonggu/mix/plan.py 开头）；素材名对 assets/manifest.json 的 name
+  loudness: {I: -15, TP: -1.5, LRA_min: 4, peak_max: -1.0}   # 成片响度：−15±0.5 LUFS，LRA ≥ 4，峰值 ≤ −1.0 dBTP
+
+# 渲染（puppeteer 逐帧截图）
+render:
+  fps: 30
+  res: [1080]                 # 出哪几种：1080 = 1080p，1440 = 2K；两种都要写 [1080, 1440]
+  workers:                    # 同时开几路浏览器（默认 1080p 6 路、2K 5 路；内存 16 GB 的电脑写 3）；可以按分辨率写 {1080p: 6, 2K: 5}
+  stable:                     # 每帧截两次比大小，最多再等几次（默认 8，防半帧）
+  tol:                        # 两次截图大小差多少算画完（默认 0.002）
+  gpumem:                     # 给浏览器的显存额度 MB（默认 2K 时 8192：不够的话有的图层整块不画）
+
+# 打包
+pack:
+  phone_parts: []             # 手机版分段（720p，每段 < 29.5 MiB）：[{name: 1of3_开头, chapters: [x]}]；不写就按章凑，每段不超过 3 分半
+  edit_pack: true             # 编辑包：逐句口播、整条口播、没有口播的画面加配乐
+
+# 封面（16:9 和 3:4 两张；字段见 chonggu/pack/cover.py）
+cover:
+  headline:                   # 封面大标题（和标题用同一个钩子）
+  big:                        # 一个大数字或短词（可不写）
+  sub: []                     # 小字，几行
+
+# 标题和发布简介（字段见 chonggu/pack/intro.py）
+intro:
+  titles: []                  # 三个标题，第一个是推荐
+  short: []                   # 短版简介，三行
+  long:                       # 长版正文（章节时间戳按时间线自动加）
+  source:                     # 一句出处：数字和原话出自……
+  tags: []                    # 标签（#重估播客 每期都带，不用写）
+
+# 发布：成片一整个放进 GitHub Release，每期的说明写在 branch 分支（默认空跑；真传要主讲说「可以发」，再加 --yes）
+publish:
+  repo:                       # GitHub 仓库：<用户名>/<仓库名>
+  branch: output              # 每期说明（README）放在哪个分支
+  tag:                        # Release 的 tag（默认 ep<期数>-<版本>）
+  asset_slug:                 # Release 里文件名用的英文短名（文件名只能是英文、数字）
+  limit_gb: 1.95              # 单个文件上限（GitHub Release 是 2 GB）
+  ai_label: true              # 简介里提醒「上传时勾选『内容由 AI 生成』」
+
+# 交付前检查：看过、确认是故意的报警（章的前缀，或 {from: 分:秒, to: 分:秒, why: 为什么}）
+qa:
+  allow: []
+
+# 文件名格式（一般不用改）：film noaudio novo mix phone phone_full editpack cover intro credits release，默认见 chonggu/config.py 的 NAMES
+names: {}

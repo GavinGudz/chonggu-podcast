@@ -1,0 +1,15 @@
+# 渲染测试用的最小一期：一章、两句话、没有任何素材（实拍、截图、标志都没有，舞台要能用暗底照常出画）。
+# tests/render/test_render.py 用它：生成 index.html → 查画面代码 → 抽几帧 →（可选）渲一小段视频。
+number: 90
+slug: render-fixture
+title: 渲染测试
+version: v1
+host: 测试主讲
+chapters:
+  - {pre: dm, name: 演示, file: ch/demo.js, branch: money}
+branches: {money: 钱}
+title_card: {text: 只是测试？, sub: RENDER · FIXTURE}
+render: {fps: 30, res: [1080], workers: 2, stable: 8, tol: .002}
+stage:                      # 舞台自己的设置（chonggu/render/run.py 的 stage_config）
+  data:
+    checklist: {title: 渲之前先查三样, items: [字体, 贴图, 画面代码]}

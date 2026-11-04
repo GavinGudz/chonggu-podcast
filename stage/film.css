@@ -1,0 +1,20 @@
+/* 《重估》舞台：字体全部用随包下载的开源字体（OFL，见 fonts/FONTS.json），Mac 和 Windows 的排版一样（像素差一点：两边画字的抗锯齿不同）。
+   Noto Sans SC（思源黑体）标题和正文；SkinHei = 同一个字体的最粗一档（树卡标题，代替兰亭黑 Heavy）；Num = Bebas Neue（窄体数字，代替 DIN Condensed Bold）；
+   Montserrat 英文（代替 Avenir Next）；Noto Serif SC（思源宋体）代替楷体和 Georgia。
+   ascent / descent / line-gap-override：行高和基线调成第 8 期用的 Mac 字体的量（冬青黑体 .88/.12/.5、DIN Condensed .712/.288/.2、Avenir Next 1/.366/0），
+   画面代码里按那几个字体调好的位置（行高 normal、padding-top:.06em 这类）换了字体也不跑位。字的大小本来就差不多（数字高一样，Bebas 宽 7%）。 */
+@font-face{font-family:'Noto Sans SC';src:url(fonts/NotoSansSC-VF.ttf) format('truetype');font-weight:100 900;font-display:block;ascent-override:88%;descent-override:12%;line-gap-override:50%}
+@font-face{font-family:SkinHei;src:url(fonts/NotoSansSC-VF.ttf) format('truetype');font-weight:900;font-display:block;ascent-override:88%;descent-override:12%;line-gap-override:50%}
+@font-face{font-family:'Noto Serif SC';src:url(fonts/NotoSerifSC-VF.ttf) format('truetype');font-weight:200 900;font-display:block;ascent-override:88%;descent-override:12%;line-gap-override:50%}
+@font-face{font-family:Montserrat;src:url(fonts/Montserrat-VF.ttf) format('truetype');font-weight:100 900;font-display:block;ascent-override:100%;descent-override:36.6%;line-gap-override:0%}
+@font-face{font-family:Num;src:url(fonts/BebasNeue-Regular.ttf) format('truetype');font-display:block;ascent-override:71.2%;descent-override:28.8%;line-gap-override:20%}
+html,body{margin:0;background:#000;overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;transform-origin:0 0;background:#07080b;font-family:'Noto Sans SC',sans-serif;color:#fff;
+ --s25-grain:url(skin/grain.png);--s25-num:Num;--s25-han:'Noto Sans SC',sans-serif}
+#stage *{box-sizing:border-box}
+.s25mega .s25h{font-weight:700}
+.s25mega .s25d{line-height:1.08;padding-top:.06em}
+/* 字幕：底部居中，白字黑描边，整句短语替换 */
+.sub{position:absolute;left:0;right:0;top:952px;z-index:90;text-align:center;font-family:'Noto Sans SC',sans-serif;font-weight:600;font-size:52px;letter-spacing:2px;color:#fff;
+ text-shadow:0 0 3px #000,0 0 3px #000,0 2px 8px #000d,0 0 22px #0008;-webkit-text-stroke:.6px #000a}
+.sub .lat{font-family:Montserrat,sans-serif;font-weight:600;font-size:.96em;letter-spacing:1px;margin:0 .06em}

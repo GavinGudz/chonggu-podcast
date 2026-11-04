@@ -1,0 +1,12 @@
+# 文本一律 LF（Windows 上 git 默认 autocrlf=true，会把检出的文件换成 CRLF：install_mac.sh 带 CRLF 提交回来，Mac 上就是 /bin/sh^M）
+* text=auto eol=lf
+# PowerShell、批处理用 CRLF（install_windows.ps1 另外要 UTF-8 带 BOM，PowerShell 5.1 才认得中文）
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+# 二进制（仓库里本来不放，万一有也不改换行）
+*.png binary
+*.jpg binary
+*.ttf binary
+*.otf binary
+*.woff2 binary

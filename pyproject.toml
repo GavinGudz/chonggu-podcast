@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chonggu-kit"
+version = "0.1.0"
+description = "《重估》播客出片工具包：稿子、口播、画面、配乐、检查、打包、发布（Mac 和 Windows 通用）"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=1.26",
+  "scipy>=1.11",
+  "soundfile>=0.12.1",
+  "PyYAML>=6.0",
+  "pypinyin>=0.50",
+  "Pillow>=10.0",
+  "audiotsm>=0.1.2",
+]
+
+[project.optional-dependencies]
+mac = ["mlx-whisper>=0.4.2"]          # Apple 芯片的听写
+win = ["faster-whisper>=1.1"]         # Windows / Linux 的听写
+denoise = ["clearvoice>=0.1.2"]       # 降噪（Python 3.12）
+
+[project.scripts]
+chonggu = "chonggu.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["chonggu*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]                 # 只收 tests/：episodes_local/ 里有指回别的工程的软链接
+norecursedirs = [".*", "episodes", "episodes_local", "stage", "node_modules", "*.egg-info"]

@@ -1,0 +1,3 @@
+# Mac（Apple 芯片）：听写用 mlx-whisper（第 8 期一直用的，large-v3 跑在 GPU 上）
+-r requirements.txt
+mlx-whisper>=0.4.2

@@ -1,0 +1,470 @@
+{
+ "_说明": "可以登记的配乐和音效清单（文件本身不进仓库）。python -m chonggu fetch-assets 把有直链的下载到每个人自己的缓存（Mac ~/Library/Caches/chonggu/assets，Windows %LOCALAPPDATA%\\chonggu\\assets），按 sha256 核对；自动下载的只有 Freesound 的 CC0 音效（用的是 Freesound 的 HQ 试听 mp3）、示例期的录音和配乐；字体另见 stage/fonts/FONTS.json。Pixabay 的配乐（Pixabay Content License，可商用、不用署名）url 一律是 null：Pixabay 条款第 8 条不许程序自动下载、批量复制，要在浏览器里手动下载，再 fetch-assets --from <下载文件夹>（按 sha256 核对）。只登记作品页核过授权的（page 填作品页地址）；还没核过的先放 assets/manifest.local.json（只在本机，不进 git），核过再挪进来。新闻、采访、实拍、截图、主讲录音一律不进这里，放每一期自己的 assets/（不进 git）。示例期（episodes/demo）用的口播录音（Wikimedia Commons 的 CC0 有声条目，kind = speech）和 CC0 配乐也登记在这里，CI 每次照 url 下载。",
+ "schema": 1,
+ "fields": {
+  "name": "在缓存里的相对路径，也是配乐编排（music/plan.json 的 file）和音效表里用的名字",
+  "kind": "music 配乐 / sfx 音效 / speech 口播录音（只有示例期用）",
+  "title": "原名",
+  "author": "作者（平台上的用户名）",
+  "source": "pixabay / freesound / wikimedia",
+  "source_id": "平台上的编号（手动下载时按它认文件）",
+  "url": "直接下载的地址；null = 要手动下载（见 manual）。Pixabay 的一律 null",
+  "page": "作品页面（核对授权用；公开清单里每条都要有）",
+  "license": "授权",
+  "license_url": "授权全文",
+  "bytes": "文件大小（第 8 期用的那份）",
+  "sha256": "内容指纹；null = 还没钉，fetch-assets --pin 填",
+  "used_in": "用在哪一期的哪一段（配乐编排的锚点）",
+  "verify": "发布前要人核对的地方",
+  "manual": "为什么要手动下载、怎么下",
+  "text_license": "录音念的文字另有的授权（示例期：维基百科条目的文字）"
+ },
+ "licenses": {
+  "pixabay": {
+   "name": "Pixabay Content License",
+   "url": "https://pixabay.com/service/license-summary/"
+  },
+  "cc0": {
+   "name": "CC0-1.0",
+   "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+  }
+ },
+ "_未登记": {
+  "为什么": "找不到下载地址和授权记录的音效不登记；要这种声音，找 Pixabay 或 Freesound CC0 的替代，登记进来。"
+ },
+ "assets": [
+  {
+   "name": "mus_ending.mp3",
+   "kind": "music",
+   "title": "Inspiring Piano & Strings",
+   "author": "_Music_for_Creators_",
+   "source": "pixabay",
+   "source_id": 127139,
+   "url": null,
+   "page": "https://pixabay.com/music/build-up-scenes-inspiring-piano-amp-strings-127139/",
+   "license": "Pixabay Content License",
+   "license_url": "https://pixabay.com/service/license-summary/",
+   "bytes": 4929410,
+   "sha256": "51b2367098b3242331a424936e31a39b726cd4f5844b8bdd2ddee39453d4e785",
+   "used_in": {
+    "ep8": [
+     "nx23.cut → END"
+    ]
+   },
+   "manual": "Pixabay 条款第 8 条不许程序自动下载、批量复制：在浏览器里打开 page（没有 page 的在 Pixabay 上搜编号 source_id）点 Download，再跑 python -m chonggu fetch-assets --from <下载文件夹>（按文件名里的 source_id 认，按 sha256 核对）"
+  },
+  {
+   "name": "mus_tech.mp3",
+   "kind": "music",
+   "title": "Technology Corporate",
+   "author": "The_Mountain",
+   "source": "pixabay",
+   "source_id": 186320,
+   "url": null,
+   "page": "https://pixabay.com/music/corporate-technology-corporate-186320/",
+   "license": "Pixabay Content License",
+   "license_url": "https://pixabay.com/service/license-summary/",
+   "bytes": 4385227,
+   "sha256": null,
+   "used_in": {
+    "ep8": [
+     "nx07.cut → nx12.cut+0.8"
+    ]
+   },
+   "manual": "Pixabay 条款第 8 条不许程序自动下载、批量复制：在浏览器里打开 page（没有 page 的在 Pixabay 上搜编号 source_id）点 Download，再跑 python -m chonggu fetch-assets --from <下载文件夹>（按文件名里的 source_id 认，按 sha256 核对）"
+  },
+  {
+   "name": "mus_strategy.mp3",
+   "kind": "music",
+   "title": "Crime Heist Investigation Music",
+   "author": "STAROSTIN",
+   "source": "pixabay",
+   "source_id": 259668,
+   "url": null,
+   "page": "https://pixabay.com/music/crime-scene-crime-heist-investigation-music-259668/",
+   "license": "Pixabay Content License",
+   "license_url": "https://pixabay.com/service/license-summary/",
+   "bytes": 4994612,
+   "sha256": null,
+   "used_in": {
+    "ep8": [
+     "nx16.cut → nx23.cut+0.8"
+    ]
+   },
+   "manual": "Pixabay 条款第 8 条不许程序自动下载、批量复制：在浏览器里打开 page（没有 page 的在 Pixabay 上搜编号 source_id）点 Download，再跑 python -m chonggu fetch-assets --from <下载文件夹>（按文件名里的 source_id 认，按 sha256 核对）"
+  },
+  {
+   "name": "new/cine_tension.mp3",
+   "kind": "music",
+   "title": "Cinematic Tension",
+   "author": "Kulakovka",
+   "source": "pixabay",
+   "source_id": 620587,
+   "url": null,
+   "page": "https://pixabay.com/music/action-cinematic-tension-620587/",
+   "license": "Pixabay Content License",
+   "license_url": "https://pixabay.com/service/license-summary/",
+   "bytes": 3687235,
+   "sha256": null,
+   "used_in": {
+    "ep8": [
+     "oa01-0.3 → oa02.cut+0.3",
+     "ob13.cut → nx01.cut+0.3"
+    ]
+   },
+   "manual": "Pixabay 条款第 8 条不许程序自动下载、批量复制：在浏览器里打开 page（没有 page 的在 Pixabay 上搜编号 source_id）点 Download，再跑 python -m chonggu fetch-assets --from <下载文件夹>（按文件名里的 source_id 认，按 sha256 核对）"
+  },
+  {
+   "name": "new/twigs_pulse.mp3",
+   "kind": "music",
+   "title": "Twigs",
+   "author": "drmseq",
+   "source": "pixabay",
+   "source_id": 614439,
+   "url": null,
+   "page": "https://pixabay.com/music/pulses-twigs-614439/",
+   "license": "Pixabay Content License",
+   "license_url": "https://pixabay.com/service/license-summary/",
+   "bytes": 5360744,
+   "sha256": null,
+   "used_in": {
+    "ep8": [
+     "oa03.cut → oa07.cut+0.8"
+    ]
+   },
+   "manual": "Pixabay 条款第 8 条不许程序自动下载、批量复制：在浏览器里打开 page（没有 page 的在 Pixabay 上搜编号 source_id）点 Download，再跑 python -m chonggu fetch-assets --from <下载文件夹>（按文件名里的 source_id 认，按 sha256 核对）"
+  },
+  {
+   "name": "new/dark_tales.mp3",
+   "kind": "music",
+   "title": "Dark Tales",
+   "author": "RahulBhardwaj143",
+   "source": "pixabay",
+   "source_id": 147852,
+   "url": null,
+   "page": "https://pixabay.com/music/beats-dark-tales-147852/",
+   "license": "Pixabay Content License",
+   "license_url": "https://pixabay.com/service/license-summary/",
+   "bytes": 5853696,
+   "sha256": null,
+   "used_in": {
+    "ep8": [
+     "ob01-1.4 → ob08.cut+0.8"
+    ]
+   },
+   "manual": "Pixabay 条款第 8 条不许程序自动下载、批量复制：在浏览器里打开 page（没有 page 的在 Pixabay 上搜编号 source_id）点 Download，再跑 python -m chonggu fetch-assets --from <下载文件夹>（按文件名里的 source_id 认，按 sha256 核对）"
+  },
+  {
+   "name": "new/magnetic_music.mp3",
+   "kind": "music",
+   "title": "Magnetic Music",
+   "author": "GreenRocketAudio",
+   "source": "pixabay",
+   "source_id": 598824,
+   "url": null,
+   "page": "https://pixabay.com/music/corporate-magnetic-music-598824/",
+   "license": "Pixabay Content License",
+   "license_url": "https://pixabay.com/service/license-summary/",
+   "bytes": 4217208,
+   "sha256": null,
+   "used_in": {
+    "ep8": [
+     "nx01-1.4 → nx07.cut+0.8"
+    ]
+   },
+   "manual": "Pixabay 条款第 8 条不许程序自动下载、批量复制：在浏览器里打开 page（没有 page 的在 Pixabay 上搜编号 source_id）点 Download，再跑 python -m chonggu fetch-assets --from <下载文件夹>（按文件名里的 source_id 认，按 sha256 核对）"
+  },
+  {
+   "name": "sfx_riser.mp3",
+   "kind": "sfx",
+   "title": "Riser",
+   "author": "Rizzard",
+   "source": "freesound",
+   "source_id": 561207,
+   "url": "https://cdn.freesound.org/previews/561/561207_10825267-hq.mp3",
+   "page": "https://freesound.org/people/Rizzard/sounds/561207/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 49306,
+   "sha256": "c512a725e9c866277b3fa0f8e7f8f311d5cca619bb0fac2e3620958f2a8b7e49"
+  },
+  {
+   "name": "sfx_impact.mp3",
+   "kind": "sfx",
+   "title": "Cinematic Impact",
+   "author": "Rizzard",
+   "source": "freesound",
+   "source_id": 559387,
+   "url": "https://cdn.freesound.org/previews/559/559387_10825267-hq.mp3",
+   "page": "https://freesound.org/people/Rizzard/sounds/559387/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 92463,
+   "sha256": "0750975fbb0ea35bdae8109a39f695dd54ac4d6d97d31bfc27bbf094bdc42723"
+  },
+  {
+   "name": "sfx_soft_impact.mp3",
+   "kind": "sfx",
+   "title": "Soft Cinematic Impact",
+   "author": "Rizzard",
+   "source": "freesound",
+   "source_id": 560156,
+   "url": "https://cdn.freesound.org/previews/560/560156_10825267-hq.mp3",
+   "page": "https://freesound.org/people/Rizzard/sounds/560156/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 130468,
+   "sha256": "40ad5f9eb0fba1b88ee970558afd15ab11222f3dbca8d959367c9a276c955783"
+  },
+  {
+   "name": "sfx_deep_whoosh.mp3",
+   "kind": "sfx",
+   "title": "Deep Whoosh #1",
+   "author": "Kinoton",
+   "source": "freesound",
+   "source_id": 351256,
+   "url": "https://cdn.freesound.org/previews/351/351256_2247456-hq.mp3",
+   "page": "https://freesound.org/people/Kinoton/sounds/351256/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 69196,
+   "sha256": "8e4dccf0697f7faff1104e58a1b38ebdd692f26294e3a53649e73e4cf7e9801f"
+  },
+  {
+   "name": "sfx_whoosh.mp3",
+   "kind": "sfx",
+   "title": "Whoosh #1",
+   "author": "Kinoton",
+   "source": "freesound",
+   "source_id": 427823,
+   "url": "https://cdn.freesound.org/previews/427/427823_2247456-hq.mp3",
+   "page": "https://freesound.org/people/Kinoton/sounds/427823/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 20544,
+   "sha256": "22c128c9f871a34e473d65e37112d37720e6030bdbb06468c520dc3c37e60673"
+  },
+  {
+   "name": "sfx_whoosh_boom.mp3",
+   "kind": "sfx",
+   "title": "whoosh+boom.wav",
+   "author": "Capashen",
+   "source": "freesound",
+   "source_id": 118934,
+   "url": "https://cdn.freesound.org/previews/118/118934_643327-hq.mp3",
+   "page": "https://freesound.org/people/Capashen/sounds/118934/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 94272,
+   "sha256": "14673f6ee98cfddd2afb65308e10dd6c01532e869998ce2f8c631ab8c6179d07"
+  },
+  {
+   "name": "sfx_page1.mp3",
+   "kind": "sfx",
+   "title": "Page Flip",
+   "author": "qubodup",
+   "source": "freesound",
+   "source_id": 454707,
+   "url": "https://cdn.freesound.org/previews/454/454707_71257-hq.mp3",
+   "page": "https://freesound.org/people/qubodup/sounds/454707/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 15168,
+   "sha256": "a9ab0c3ed0a006596aa3a74d682240667e859d58110fe4568f32ab37a4359751"
+  },
+  {
+   "name": "sfx_page2.mp3",
+   "kind": "sfx",
+   "title": "Page Flip",
+   "author": "qubodup",
+   "source": "freesound",
+   "source_id": 442858,
+   "url": "https://cdn.freesound.org/previews/442/442858_71257-hq.mp3",
+   "page": "https://freesound.org/people/qubodup/sounds/442858/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 15744,
+   "sha256": "0aa1594fae47fc3afd3de6b3873fd4d5e51efa7c2d7bfb0a676c187e8340cac7"
+  },
+  {
+   "name": "sfx_page3.mp3",
+   "kind": "sfx",
+   "title": "Page Flip",
+   "author": "kevinpro",
+   "source": "freesound",
+   "source_id": 382230,
+   "url": "https://cdn.freesound.org/previews/382/382230_3142833-hq.mp3",
+   "page": "https://freesound.org/people/kevinpro/sounds/382230/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 42161,
+   "sha256": "56ff8c83af3a81380c1629059fd8e67e1ea0ded343bd5d830073c4c431a00cca"
+  },
+  {
+   "name": "sfx_riser2.mp3",
+   "kind": "sfx",
+   "title": "Lunar Short Uplifter FX 3.wav",
+   "author": "maqsim",
+   "source": "freesound",
+   "source_id": 172148,
+   "url": "https://cdn.freesound.org/previews/172/172148_1897295-hq.mp3",
+   "page": "https://freesound.org/people/maqsim/sounds/172148/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 46080,
+   "sha256": "ce888947b366cd0d6dda81c3030df3dede904df04568478409c5ceb381b0f132"
+  },
+  {
+   "name": "sfx_boom1.mp3",
+   "kind": "sfx",
+   "title": "boom.wav",
+   "author": "Snapper4298",
+   "source": "freesound",
+   "source_id": 157245,
+   "url": "https://cdn.freesound.org/previews/157/157245_33044-hq.mp3",
+   "page": "https://freesound.org/people/Snapper4298/sounds/157245/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 29684,
+   "sha256": "240364810f028db2a45dc37a95ad9e4ce531c1e86bf04eba7c103089306ad36e"
+  },
+  {
+   "name": "sfx_boom2.mp3",
+   "kind": "sfx",
+   "title": "LowThump_01.wav",
+   "author": "Faulkin",
+   "source": "freesound",
+   "source_id": 336494,
+   "url": "https://cdn.freesound.org/previews/336/336494_5866833-hq.mp3",
+   "page": "https://freesound.org/people/Faulkin/sounds/336494/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 25412,
+   "sha256": "3dd9a1d43faef62aaced56e25d97c5c732af9d0f3e8ad7c5facc883edf68274b"
+  },
+  {
+   "name": "sfx_sparkle1.mp3",
+   "kind": "sfx",
+   "title": "cartoon_wink_magic_sparkle.wav",
+   "author": "MLaudio",
+   "source": "freesound",
+   "source_id": 511485,
+   "url": "https://cdn.freesound.org/previews/511/511485_6890478-hq.mp3",
+   "page": "https://freesound.org/people/MLaudio/sounds/511485/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 32094,
+   "sha256": "391d56061a84d6cca6be41c8a3bd5cc5780540fa6302016778d5873979411ad6"
+  },
+  {
+   "name": "sfx_sparkle2.mp3",
+   "kind": "sfx",
+   "title": "ShiningRinging",
+   "author": "NoisyRedFox",
+   "source": "freesound",
+   "source_id": 759840,
+   "url": "https://cdn.freesound.org/previews/759/759840_14357801-hq.mp3",
+   "page": "https://freesound.org/people/NoisyRedFox/sounds/759840/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 18264,
+   "sha256": "80426ed4fe6e631b199b9dfd99d3f8ac581f6e16cc19df888259d2ea2ffc61bb"
+  },
+  {
+   "name": "sfx_flash.mp3",
+   "kind": "sfx",
+   "title": "Whoosh",
+   "author": "qubodup",
+   "source": "freesound",
+   "source_id": 60013,
+   "url": "https://cdn.freesound.org/previews/60/60013_71257-hq.mp3",
+   "page": "https://freesound.org/people/qubodup/sounds/60013/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 11897,
+   "sha256": "ebdb219e7f36f7e1aecdb045d6d8bdad059119af319863777c7302a69fa41a92"
+  },
+  {
+   "name": "sfx_glitch.mp3",
+   "kind": "sfx",
+   "title": "Digital Glitch_v1.wav",
+   "author": "tadaizm",
+   "source": "freesound",
+   "source_id": 458065,
+   "url": "https://cdn.freesound.org/previews/458/458065_1316332-hq.mp3",
+   "page": "https://freesound.org/people/tadaizm/sounds/458065/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 13248,
+   "sha256": "2002c623d02ce566cafa4ae1d042807d433899e9bf390001fbc1f8070fe7a53b"
+  },
+  {
+   "name": "sfx_pop.mp3",
+   "kind": "sfx",
+   "title": "Plop!",
+   "author": "Breviceps",
+   "source": "freesound",
+   "source_id": 447910,
+   "url": "https://cdn.freesound.org/previews/447/447910_9159316-hq.mp3",
+   "page": "https://freesound.org/people/Breviceps/sounds/447910/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 7411,
+   "sha256": "111dffa2efb3e0fbac32f7228f8815de33d46e319c5d36c79c16d5bf513fa067"
+  },
+  {
+   "name": "sfx_tick.mp3",
+   "kind": "sfx",
+   "title": "Button Tick",
+   "author": "NenadSimic",
+   "source": "freesound",
+   "source_id": 268108,
+   "url": "https://cdn.freesound.org/previews/268/268108_2514850-hq.mp3",
+   "page": "https://freesound.org/people/NenadSimic/sounds/268108/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 4381,
+   "sha256": "3285c2a68d566a16733184eb47611dd4d73c9b92deecca5a081d2a8530e051ea"
+  },
+  {
+   "name": "speech/zh_wuyancun.ogg",
+   "kind": "speech",
+   "title": "无盐村（中文维基百科有声条目，普通话）",
+   "author": "魏庆贺（Wikimedia Commons 用户，朗读者）",
+   "source": "wikimedia",
+   "source_id": null,
+   "url": "https://upload.wikimedia.org/wikipedia/commons/8/80/%E6%97%A0%E7%9B%90%E6%9D%91.ogg",
+   "page": "https://commons.wikimedia.org/wiki/File:%E6%97%A0%E7%9B%90%E6%9D%91.ogg",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 275455,
+   "sha256": "cbb77ce52ba938abd1cff6dbc7e04082bb708624da3f2085fb627fed94986679",
+   "used_in": {
+    "demo": [
+     "voice.recording（示例期的口播，整段 30 秒）"
+    ]
+   },
+   "verify": "录音是 CC0（朗读者放弃了权利，另标 PD-self）；念的是中文维基百科「无盐村」条目（2017-07-20 版，oldid=45287509，CC BY-SA 3.0）的文字：成片念出来的文字和字幕都是这段文字的改编，按 CC BY-SA 3.0 署名、同样授权分享，见 episodes/demo/CREDITS_第99期.md",
+   "text_license": "CC BY-SA 3.0"
+  },
+  {
+   "name": "cc0/calming_piano_loop.mp3",
+   "kind": "music",
+   "title": "Calming Piano Loop 60bpm",
+   "author": "Seth_Makes_Sounds",
+   "source": "freesound",
+   "source_id": 679738,
+   "url": "https://cdn.freesound.org/previews/679/679738_13228046-hq.mp3",
+   "page": "https://freesound.org/people/Seth_Makes_Sounds/sounds/679738/",
+   "license": "CC0-1.0",
+   "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "bytes": 2408033,
+   "sha256": "5f55300af9d9bcc1f55dd6c669e5d96e4c8be15b1a21208b3698b4393d1965dc",
+   "used_in": {
+    "demo": [
+     "ly1-1.4 → END"
+    ]
+   }
+  }
+ ]
+}

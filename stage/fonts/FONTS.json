@@ -1,0 +1,66 @@
+{
+  "_说明": "舞台和封面用的开源字体。都是 SIL Open Font License 1.1（OFL），可以随工具包分发，但文件太大（思源黑体 17 MB、思源宋体 25 MB），不进仓库：python -m chonggu fetch-assets（或第一次 stills / render）照这里的 url 下载到 stage/fonts/，按 sha256 核对。url 钉在 google/fonts 仓库的一个提交上，内容不会变。 每个字体在 film.css 里用 ascent-override / descent-override / line-gap-override 把行高、基线调成第 8 期用的 Mac 字体的量（冬青黑体 .88/.12/.5，Avenir Next 1/.366/0，DIN Condensed .712/.288/.2），第 8 期调好的排版换了字体也不跑位。",
+  "source": "https://github.com/google/fonts/tree/2fe1e8c6b137fb13041a7cfca6fdcd8a910ea4dc/ofl",
+  "fonts": [
+    {
+      "name": "Noto Sans SC（思源黑体）",
+      "file": "NotoSansSC-VF.ttf",
+      "url": "https://raw.githubusercontent.com/google/fonts/2fe1e8c6b137fb13041a7cfca6fdcd8a910ea4dc/ofl/notosanssc/NotoSansSC%5Bwght%5D.ttf",
+      "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+      "bytes": 17772300,
+      "author": "Google / Adobe（Noto CJK）",
+      "license": "OFL-1.1",
+      "license_url": "https://raw.githubusercontent.com/google/fonts/2fe1e8c6b137fb13041a7cfca6fdcd8a910ea4dc/ofl/notosanssc/OFL.txt",
+      "license_file": "OFL_NotoSansSC.txt",
+      "license_sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+      "css_family": "'Noto Sans SC'、SkinHei",
+      "use": "中文标题和正文（代替冬青黑体、苹方、兰亭黑；行高和基线按冬青黑体的量调过）",
+      "dest": "stage/fonts/NotoSansSC-VF.ttf"
+    },
+    {
+      "name": "Noto Serif SC（思源宋体）",
+      "file": "NotoSerifSC-VF.ttf",
+      "url": "https://raw.githubusercontent.com/google/fonts/2fe1e8c6b137fb13041a7cfca6fdcd8a910ea4dc/ofl/notoserifsc/NotoSerifSC%5Bwght%5D.ttf",
+      "sha256": "050080d9255a86808f2945bffac582b31ef32bc36411ce29563b4961670c66f9",
+      "bytes": 25125512,
+      "author": "Google / Adobe（Noto CJK）",
+      "license": "OFL-1.1",
+      "license_url": "https://raw.githubusercontent.com/google/fonts/2fe1e8c6b137fb13041a7cfca6fdcd8a910ea4dc/ofl/notoserifsc/OFL.txt",
+      "license_file": "OFL_NotoSerifSC.txt",
+      "license_sha256": "5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6",
+      "css_family": "'Noto Serif SC'",
+      "use": "宋体、楷体的位置（K.KAI、K.SERIF）",
+      "dest": "stage/fonts/NotoSerifSC-VF.ttf"
+    },
+    {
+      "name": "Montserrat",
+      "file": "Montserrat-VF.ttf",
+      "url": "https://raw.githubusercontent.com/google/fonts/2fe1e8c6b137fb13041a7cfca6fdcd8a910ea4dc/ofl/montserrat/Montserrat%5Bwght%5D.ttf",
+      "sha256": "0f7b311b2f3279e4eef9b2f968bcdbab6e28f4daeb1f049f4f278a902bcd82f7",
+      "bytes": 744936,
+      "author": "The Montserrat Project Authors",
+      "license": "OFL-1.1",
+      "license_url": "https://raw.githubusercontent.com/google/fonts/2fe1e8c6b137fb13041a7cfca6fdcd8a910ea4dc/ofl/montserrat/OFL.txt",
+      "license_file": "OFL_Montserrat.txt",
+      "license_sha256": "8b7141c03fa4f8d44e6345d5d4931709290f0f67875e452e95ac1fd3a027802e",
+      "css_family": "Montserrat",
+      "use": "英文小字（代替 Avenir Next；基线按 Avenir Next 的量调过）",
+      "dest": "stage/fonts/Montserrat-VF.ttf"
+    },
+    {
+      "name": "Bebas Neue",
+      "file": "BebasNeue-Regular.ttf",
+      "url": "https://raw.githubusercontent.com/google/fonts/2fe1e8c6b137fb13041a7cfca6fdcd8a910ea4dc/ofl/bebasneue/BebasNeue-Regular.ttf",
+      "sha256": "08e4623805102d819f58601e46e345648846075e363b2ceb23313c2d1c83ec73",
+      "bytes": 61400,
+      "author": "Dharma Type",
+      "license": "OFL-1.1",
+      "license_url": "https://raw.githubusercontent.com/google/fonts/2fe1e8c6b137fb13041a7cfca6fdcd8a910ea4dc/ofl/bebasneue/OFL.txt",
+      "license_file": "OFL_BebasNeue.txt",
+      "license_sha256": "72082f6cb4d04be2ecf7cc7d9e1e7d73787f0af8a5a278a47cade70c16b78341",
+      "css_family": "Num",
+      "use": "窄体数字（代替 DIN Condensed Bold：数字一样高、宽 7%；film.css 用 ascent-override 把基线放到和 DIN 一样的位置）",
+      "dest": "stage/fonts/BebasNeue-Regular.ttf"
+    }
+  ]
+}

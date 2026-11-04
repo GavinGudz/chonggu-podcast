@@ -1,0 +1,81 @@
+# 公开仓库：只放代码、开源字体的登记、文档、素材清单。录音、配乐、音效、新闻和采访片段、截图、成片一律不进 git。
+
+# Python / Node
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+node_modules/
+.pytest_cache/
+
+# 每一期自己的素材、录音、中间结果、成片（只在本机）
+episodes/*/assets/
+episodes/*/voice/
+episodes/*/out/
+episodes/*/raw/
+episodes/*/stills/
+episodes/*/timeline_*.json
+episodes/demo/timeline.json
+!episodes/_template/
+!episodes/_template/**
+
+# 媒体文件：不管放在哪都不进 git（下载的素材在每个人自己的缓存里，见 assets/manifest.json）
+*.wav
+*.mp3
+*.m4a
+*.aac
+*.flac
+*.ogg
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.zip
+*.part
+*.parts/
+# 图片、PDF、字体、别的压缩包和数组：截图、照片、实拍帧、封面、招股书原件放在哪都不进 git（舞台贴图和字体是生成 / 下载的，见 stage/.gitignore）
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.tif
+*.tiff
+*.heic
+*.psd
+*.pdf
+*.ttf
+*.otf
+*.woff
+*.woff2
+*.opus
+*.aif
+*.aiff
+*.avi
+*.m4v
+*.7z
+*.tar
+*.gz
+*.npy
+*.npz
+.ci-cache/
+
+# 系统和编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+
+# 本机的私人设置（绝对路径、账号）和只在本机的素材清单（作品页还没核过授权的）
+*.local.yaml
+*.local.json
+.env
+
+# 搭建工具包时的方案（有人名、本机路径、私人链接），不进公开仓库
+KIT_PLAN.md
+
+# 只在本机跑的回归期（第 8 期：指回原工程的软链接、复制来的画面代码），不进 git
+episodes_local/

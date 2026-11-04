@@ -1,0 +1,12 @@
+{
+  "name": "chonggu-stage",
+  "version": "1.0.0",
+  "private": true,
+  "description": "《重估》舞台渲染：puppeteer 逐帧截图（python -m chonggu stills / render 调用）",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "dependencies": {
+    "puppeteer": "25.12.0"
+  }
+}
