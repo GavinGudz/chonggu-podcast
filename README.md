@@ -80,6 +80,7 @@ tests/            测试
 - [docs/上手指南_Mac.md](docs/上手指南_Mac.md)：Mac 上的差别。
 - [docs/命令说明.md](docs/命令说明.md)：每条命令的输入、输出、门槛、用时。
 - [docs/skill/SKILL.md](docs/skill/SKILL.md)：给 Claude Code 的说明书（触发词、命令表、硬规矩、踩过的坑）。
+- [docs/做视频SOP.md](docs/做视频SOP.md)：做一期视频的完整流程和踩过的坑（第 8 期复盘；第 15 节是第 9 期把横版拆成 4:3 短视频的做法）。
 
 ## 授权
 
